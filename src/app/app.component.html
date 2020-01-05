@@ -1,0 +1,13 @@
+<div class="container">
+    <!-- header component-->
+    <app-header></app-header>
+    <!-- end header component-->
+
+    <!-- do-or-dont component-->
+    <app-do-or-dont (isClicked)="getReport($event)"></app-do-or-dont>
+    <!-- end do-or-dont component-->
+
+    <!-- report component-->
+    <app-report *ngIf="displayReport==true"></app-report>
+    <!-- end report component-->
+</div>

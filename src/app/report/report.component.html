@@ -1,0 +1,28 @@
+<div class="report">
+    <div class="row text-center" *ngIf="longestCrawlingData != null">
+        <p class="question">Which of all StarWars movies has longest opening crawl?</p>
+          <p class="answer">{{ longestCrawlingData.title }}</p>        
+    </div>
+  
+    <div class="row text-center" *ngIf="popularCharacterData.length >= 1">
+        <p class="question">Which of all StarWars movies has longest opening crawl?</p>
+        <p *ngFor="let character of popularCharacterData" class="answer"> {{ character.name }}</p>        
+    </div>
+
+    <div class="row text-center" *ngIf="speciesAppearanceData.length >= 1">
+        <p class="question">Which of all StarWars movies has longest opening crawl?</p>
+        <p *ngFor="let specie of speciesAppearanceData" class="answer"> {{ specie.name }} {{ specie.count}}</p>        
+    </div>
+
+    <div class="row text-center" *ngIf="pilotsByPlanetsData.length >= 1">
+        <p class="question">Which of all StarWars movies has longest opening crawl?</p>
+        <p *ngFor="let data of pilotsByPlanetsData" class="answer">
+            Planet: {{ data.planet }} - Pilots: ( {{ data.count}}) - 
+            <span *ngIf="data.vehicle_pilots.length >=1">
+                <span *ngFor="let pilot of data.vehicle_pilots"> {{ pilot.name }} -{{ pilot.specie}}</span>
+            </span>
+        </p>        
+    </div>
+    
+    
+</div>
