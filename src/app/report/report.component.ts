@@ -17,8 +17,6 @@ import { Pilot } from 'src/shared/models/pilot.model';
 })
 export class ReportComponent implements OnInit {
 
-  public longestCrawlingData$: BehaviorSubject<LongestCrawl> ;
-
   longestCrawlingData: LongestCrawl = new LongestCrawl();
   popularCharacterData: PopularCharacter[] = [];
   speciesAppearanceData: SpeciesAppearance[] = [];
