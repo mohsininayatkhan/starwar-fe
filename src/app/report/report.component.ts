@@ -42,7 +42,7 @@ export class ReportComponent implements OnInit {
       data => {                
         this.longestCrawlingData = data;        
       }, 
-      error => {
+      error => {        
         this.error = error.message;
       }
     );   
@@ -63,7 +63,6 @@ export class ReportComponent implements OnInit {
     this._filmService.getSpeciesByAppearanceReport().subscribe(
       data => {        
         this.speciesAppearanceData = data;
-        //console.log(this.speciesAppearanceData);
       }, 
       error => {
         this.error = error.message;
@@ -75,7 +74,6 @@ export class ReportComponent implements OnInit {
     this._filmService.getPilotsByPlanetsReport().subscribe(
       data => {        
         this.pilotsByPlanetsData = data;        
-        console.log(this.pilotsByPlanetsData);
       }, 
       error => {
         this.error = error.message;

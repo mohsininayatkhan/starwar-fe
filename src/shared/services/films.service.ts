@@ -27,7 +27,7 @@ export class FilmService
             return report;
           }),
           catchError(errorRes => {
-            console.log(errorRes.message);
+            //console.log(errorRes.message);
             return throwError(errorRes);
           })
         );
@@ -38,7 +38,7 @@ export class FilmService
       return this.http
         .get(apiPaths.film.topCharacter).pipe(
           map(responseData => {
-            const report: LongestCrawl[] = [];
+            const report: PopularCharacter[] = [];
             for (const key in responseData) {
               if (responseData.hasOwnProperty(key)) {
                 report.push({ ...responseData[key], id: key });
@@ -47,7 +47,7 @@ export class FilmService
             return report;
           }),
           catchError(errorRes => {
-            console.log(errorRes.message);
+            //console.log(errorRes.message);
             return throwError(errorRes);
           })
         );
@@ -95,7 +95,7 @@ export class FilmService
             return report;
           }),
           catchError(errorRes => {
-            console.log(errorRes.message);
+            //console.log(errorRes.message);
             return throwError(errorRes);
           })
         );
