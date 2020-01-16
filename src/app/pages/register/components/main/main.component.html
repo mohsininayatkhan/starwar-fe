@@ -1,0 +1,70 @@
+
+
+  <div class="well"> 
+      <h2>Register</h2>
+      <hr>   
+        <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input 
+              ngModel 
+              name="name" 
+              type="text"
+              class="form-control" 
+              id="name"                 
+              placeholder="Enter full name"
+              #name="ngModel"
+            >
+            <small *ngIf="!name.valid && name.touched" id="nameError" class="form-text text-muted">Please enter full name.</small>
+          </div>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input 
+                ngModel 
+                name="email"
+                type="email" 
+                class="form-control" 
+                id="email" 
+                placeholder="Email"
+                #email="ngModel"  
+                required 
+                email="true"
+              >
+              <small *ngIf="!email.valid && email.touched" id="emailError" class="form-text text-muted">Please enter valid email.</small>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input 
+                ngModel 
+                name="password" 
+                type="password" 
+                class="form-control" 
+                id="password" 
+                placeholder="Password"
+                #password="ngModel"
+                required 
+                (change) = "confirmPassword.control.updateValueAndValidity()"
+              >
+              <small *ngIf="!password.valid && password.touched" id="passwordError" class="form-text text-muted">Please enter password.</small>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <input 
+                ngModel 
+                name="confirmPassword"
+                type="password" 
+                class="form-control" 
+                id="confirmPassword" 
+                placeholder="Confirm Password"
+                #confirmPassword="ngModel" 
+                required 
+                mustMatch="password"
+              >
+              <small *ngIf="!confirmPassword.valid && confirmPassword.touched" class="form-text text-muted">
+                Password not match.
+              </small>              
+            </div>            
+            <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+          </form>
+
+    </div>

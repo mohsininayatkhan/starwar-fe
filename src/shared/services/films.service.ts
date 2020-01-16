@@ -33,6 +33,24 @@ export class FilmService
         );
     }
 
+    test()
+    {
+        return this.http.post(apiPaths.auth.register,
+          {
+              name:  'mohsin',
+              email: 'mohsin',
+              password: 'test'
+          }
+      )
+      .pipe(
+          map(response => {
+              console.log(response);
+              return response;
+          })
+          
+      );
+    }
+
     getPopularCharacterReport()
     {
       return this.http

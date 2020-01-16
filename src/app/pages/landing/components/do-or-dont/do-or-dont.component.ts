@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-do-or-dont',
+  selector: 'landing-do-or-dont',
   templateUrl: './do-or-dont.component.html',
   styleUrls: ['./do-or-dont.component.css']
 })

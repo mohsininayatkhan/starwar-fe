@@ -7,16 +7,9 @@ import { Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'Star Wars';
-  public displayReport: boolean; 
-
+  title = 'Star Wars'; 
+  
   constructor(){}
 
-  ngOnInit(){
-    this.displayReport = false;    
-  }
-
-  getReport(event){
-    this.displayReport = true;    
-  }  
+  ngOnInit(){}  
 }
