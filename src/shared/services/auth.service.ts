@@ -3,7 +3,8 @@ import { apiPaths } from '../parameters/backend-endpoints';
 import { HttpClient } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Subject, throwError, Observable } from 'rxjs';
-
+import { UserRegisteration } from '../models/user-registeration.model'
+ 
 @Injectable()
 export class AuthService
 { 
@@ -18,12 +19,6 @@ export class AuthService
             password: password,
             password_confirmation: confirmPassword
         };
-        return this.http.post(apiPaths.auth.register, body)
-        .pipe(
-          map(response => {
-              console.log(response);
-              return response;
-          })          
-      );
+        return this.http.post(apiPaths.auth.register, body);
     }    
 }

@@ -1,5 +1,5 @@
-export let apiServer = 'http://localhost:81/starwar/public/api/';
-export let authServer = 'http://localhost:81/rec/public/api/';
+export let apiServer = 'http://10.1.5.113:81/starwar/public/api/';
+export let authServer = 'http://10.1.5.113:81/rec/public/api/';
 
 export let apiPaths = {
     film : {
