@@ -23,12 +23,12 @@ export class MainComponent implements OnInit {
     constructor(private _store: Store<AppState>, private toastr: ToastrService) { }
 
     ngOnInit() {
-        this.toastr.success('Hello world!', 'Toastr fun!');
+        
         this._store.select('auth').subscribe((authState=> {
             
             if(authState.error!==null) {
-                this.authError = authState.error;
-                console.log(this.authError.message);
+                this.authError = authState.error;                
+                this.toastr.success('Error', this.authError.message);
             }
 
             if(authState.user!==null) {
