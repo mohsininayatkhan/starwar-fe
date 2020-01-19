@@ -15,6 +15,11 @@ import { AuthService } from '../shared/services/auth.service'
 import { AuthEffects } from '../shared/store/effects/auth.effects';
 import * as fromApp from '../shared/store/reducers/app.reducer';
 
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+ 
+import { ToastrModule } from 'ngx-toastr'
+
 const appRoutes: Routes = [
   {
     path: '', 
@@ -28,10 +33,17 @@ const appRoutes: Routes = [
     AppComponent
   ],
   imports: [
+    CommonModule,
+    BrowserAnimationsModule,
     BrowserModule,
     HttpClientModule,
     LayoutModule,
     PagesModule,
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
     StoreModule.forRoot(fromApp.appReducer),
     RouterModule.forRoot(appRoutes),
     EffectsModule.forRoot([AuthEffects]),

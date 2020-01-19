@@ -6,6 +6,7 @@ import { Regiser, RegisterError, RegisterSuccess } from 'src/shared/store/action
 import { AppState } from 'src/shared/store/states/app.state';
 import { User } from 'src/shared/models/auth/user.model';
 import * as RegisterModels from  'src/shared/models/auth/register.models';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'login-main',
@@ -19,9 +20,10 @@ export class MainComponent implements OnInit {
 
     private authError: RegisterModels.RegisterErrorResponse;
 
-    constructor(private _store: Store<AppState>) { }
+    constructor(private _store: Store<AppState>, private toastr: ToastrService) { }
 
     ngOnInit() {
+        this.toastr.success('Hello world!', 'Toastr fun!');
         this._store.select('auth').subscribe((authState=> {
             
             if(authState.error!==null) {
