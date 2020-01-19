@@ -4,7 +4,8 @@ import { AuthService } from 'src/shared/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Regiser, RegisterError, RegisterSuccess } from 'src/shared/store/actions/auth.actions';
 import { AppState } from 'src/shared/store/states/app.state';
-import { UserRegisteration } from 'src/shared/models/user-registeration.model';
+import { User } from 'src/shared/models/auth/user.model';
+import * as RegisterModels from  'src/shared/models/auth/register.models';
 
 @Component({
     selector: 'login-main',
@@ -16,36 +17,38 @@ export class MainComponent implements OnInit {
     // another way to get form object by tag
     //@ViewChild('form', {static: true}) loginForm: NgForm;
 
-    /*constructor(private _authService: AuthService) { }*/
+    private authError: RegisterModels.RegisterErrorResponse;
+
     constructor(private _store: Store<AppState>) { }
-    ngOnInit() {        
+
+    ngOnInit() {
+        this._store.select('auth').subscribe((authState=> {
+            
+            if(authState.error!==null) {
+                this.authError = authState.error;
+                console.log(this.authError.message);
+            }
+
+            if(authState.user!==null) {
+                console.log(authState.user);
+            }
+        }));
     }
 
     onSubmit(form: NgForm) {
+
         if(!form.valid) {
             return;
         }        
 
         const data = form.value;
-        const user : UserRegisteration = {
+        
+        const request : RegisterModels.RegiserRequest = {
             name: data.name,
             email: data.email,
             password: data.password,
             password_confirmation: data.confirmPassword
-        };
-        
-        this._store.dispatch(new Regiser(user));
-
-        /*
-        this._authService.register(data.name, data.email, data.password, data.confirmPassword)
-        .subscribe(
-            data => {
-                console.log(data);
-            },
-            error => {
-                console.log(error.message);
-            }
-        );*/
-
+        };        
+        this._store.dispatch(new Regiser(request));
     }    
 }

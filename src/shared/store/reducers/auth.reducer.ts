@@ -1,26 +1,41 @@
 import { Action } from '@ngrx/store';
-import * as AuthActions from '../actions/auth.actions';
 import { AuthState } from '../states/auth.state';
-import { AuthUser } from '../../models/auth-user.model'
+import { User } from '../../models/auth/user.model';
+import * as AuthActions from '../actions/auth.actions';
 
 const initialState: AuthState = {
-    user:  null   
+    user: null, 
+    error: null,
 };
 
 export function authReducer(state: AuthState = initialState, action: AuthActions.AuthActionTypes) {
     //action.payload
     switch(action.type) {
         case AuthActions.Names.REGISTER:
-            //const user = new AuthUser(action.payload.name, action.payload.email);
-            return state;
-        case AuthActions.Names.REGISTER_SUCCESS:
-            console.log(action.payload);
-            //const user = new AuthUser(action.payload.name, action.payload.email);
-            return state;
+            return {
+                ...state,
+                user: null,
+                error: null
+            };            
+        case AuthActions.Names.REGISTER_SUCCESS:            
+            const user = new User(
+                action.payload.user.id, 
+                action.payload.user.name, 
+                action.payload.user.email,
+                action.payload.access_token,
+                new Date(action.payload.expires_at)
+            );
+            return {
+                ...state,
+                user: user,
+                error: null
+            };
         case AuthActions.Names.REGISTER_ERROR:
-            console.log(action.payload);
-            //const user = new AuthUser(action.payload.name, action.payload.email);
-            return state;
+            return {
+                ...state,
+                user: null,
+                error: action.payload
+            };            
         default:
             return state;
     }

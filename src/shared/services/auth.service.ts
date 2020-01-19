@@ -1,24 +1,22 @@
 import { Injectable } from '@angular/core';
 import { apiPaths } from '../parameters/backend-endpoints';
 import { HttpClient } from '@angular/common/http';
-import { map, catchError, tap } from 'rxjs/operators';
-import { Subject, throwError, Observable } from 'rxjs';
-import { UserRegisteration } from '../models/user-registeration.model'
+import * as RegisterModels from 'src/shared/models/auth/register.models';
+
  
 @Injectable()
 export class AuthService
-{ 
-    error = new Subject<string>();
+{     
     constructor(private http: HttpClient){}
 
-    register(name: string, email: string, password: string, confirmPassword: string)
+    register(request: RegisterModels.RegiserRequest)
     {
-        const body = {
+        /*const body: RegisterModels.RegiserRequest = {
             name: name,
             email: email,
             password: password,
             password_confirmation: confirmPassword
-        };
-        return this.http.post(apiPaths.auth.register, body);
+        };*/
+        return this.http.post(apiPaths.auth.register, request);
     }    
 }

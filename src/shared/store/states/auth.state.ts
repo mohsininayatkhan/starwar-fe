@@ -1,5 +1,7 @@
-import { AuthUser } from '../../models/auth-user.model';
+import { User } from 'src/shared/models/auth/user.model';
+import { RegisterErrorResponse } from 'src/shared/models/auth/register.models';
 
 export interface AuthState {
-    user: AuthUser;    
+    user: User,
+    error: RegisterErrorResponse
 }

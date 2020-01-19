@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { UserRegisteration } from '../../models/user-registeration.model';
-import { AuthUser } from 'src/shared/models/auth-user.model';
+import * as RegisterModels from  'src/shared/models/auth/register.models';
+import { User } from 'src/shared/models/auth/user.model';
 
 export enum Names {
     REGISTER = '[Register Page] Register',
@@ -16,19 +16,20 @@ export enum Names {
 export class Regiser implements Action {
     readonly type = Names.REGISTER;
 
-    constructor(public payload: UserRegisteration) {}
+    constructor(public payload: RegisterModels.RegiserRequest) {}
 }
 
 export class RegisterSuccess implements Action {
     readonly type = Names.REGISTER_SUCCESS;
 
-    constructor(public payload: AuthUser) {}
+    constructor(public payload: RegisterModels.RegisterSuccessResponse) {}
 }
 
 export class RegisterError implements Action {
     readonly type = Names.REGISTER_ERROR
 
-    constructor(public payload: Error) {}
+    //constructor(public payload: RegisterModels.RegisterErrorResponse) {}
+    constructor(public payload: RegisterModels.RegisterErrorResponse) {}
 }
 
 export type AuthActionTypes = Regiser | RegisterSuccess | RegisterError;
