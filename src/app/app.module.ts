@@ -42,7 +42,7 @@ const appRoutes: Routes = [
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-top-right',
-      preventDuplicates: true,
+      preventDuplicates: false,
     }),
     StoreModule.forRoot(fromApp.appReducer),
     RouterModule.forRoot(appRoutes),

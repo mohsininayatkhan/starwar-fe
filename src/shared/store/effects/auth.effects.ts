@@ -14,28 +14,15 @@ export class AuthEffects {
   
     @Effect() regiser$ = this.actions$
     .pipe(
-      ofType<AuthActions.Regiser>(AuthActions.Names.REGISTER),
+      ofType<AuthActions.Register>(AuthActions.Names.REGISTER),
       mergeMap(
         (data) => {          
           return this.authService.register(data.payload)
           .pipe(
-            map((response) => new AuthActions.RegisterSuccess(<RegisterModels.RegisterSuccessResponse>response)),
+            map((response) => new AuthActions.RegisterSuccess(<RegisterModels.RegisterSuccessResponse>response)
+            ),
             catchError((error: HttpErrorResponse) => {              
-              
-              let errorResponse: RegisterModels.RegisterErrorResponse;
-
-              if (typeof error.error.message === 'undefined') {
-                errorResponse = {
-                  message : 'Unknown Error!',
-                  errors: null
-                };               
-              } else {
-                errorResponse = {
-                  message: error.error.message,
-                  errors: error.error.errors
-                }
-              }
-              return of(new AuthActions.RegisterError(errorResponse));
+              return handleErrors(error);
             })
           )
         }
@@ -48,7 +35,7 @@ export class AuthEffects {
       tap(() => {
         this.router.navigate(['/']);
       })
-  );
+  );  
 
   constructor(
     private actions$: Actions,
@@ -56,3 +43,31 @@ export class AuthEffects {
     private router: Router
   ) {}
 }
+
+const handleErrors = (error: HttpErrorResponse) => {
+  let errorResponse: RegisterModels.RegisterErrorResponse;
+
+  if (typeof error.error.message === 'undefined') {
+    errorResponse = {
+      message : 'Unknown Error!',
+      errors: null
+    };               
+  } else {
+    const errorDetail = error.error.errors;
+    const errorFields = Object.keys(errorDetail);
+    let errorsList = [];
+
+    errorFields.forEach(element => {
+      const fieldErrors = errorDetail[element];
+      fieldErrors.forEach(error => {
+        errorsList.push(error);
+      });
+    });
+    
+    errorResponse = {
+      message: error.error.message,
+      errors: errorsList
+    }
+  }
+  return of(new AuthActions.RegisterError(errorResponse));
+};

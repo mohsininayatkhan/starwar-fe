@@ -13,7 +13,7 @@ export enum Names {
     LOGOUT_SUCCESS = '[Auth API] Logout Success',
 }
 
-export class Regiser implements Action {
+export class Register implements Action {
     readonly type = Names.REGISTER;
 
     constructor(public payload: RegisterModels.RegiserRequest) {}
@@ -32,4 +32,4 @@ export class RegisterError implements Action {
     constructor(public payload: RegisterModels.RegisterErrorResponse) {}
 }
 
-export type AuthActionTypes = Regiser | RegisterSuccess | RegisterError;
+export type AuthActionTypes = Register | RegisterSuccess | RegisterError;

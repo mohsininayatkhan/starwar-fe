@@ -14,6 +14,7 @@
               id="name"                 
               placeholder="Enter full name"
               #name="ngModel"
+              required
             >
             <small *ngIf="!name.valid && name.touched" id="nameError" class="form-text text-muted">Please enter full name.</small>
           </div>
@@ -43,9 +44,11 @@
                 placeholder="Password"
                 #password="ngModel"
                 required 
+                minlength="8"
                 (change) = "confirmPassword.control.updateValueAndValidity()"
               >
-              <small *ngIf="!password.valid && password.touched" id="passwordError" class="form-text text-muted">Please enter password.</small>
+              <small *ngIf="!password.valid && password.errors.required && password.touched" id="passwordError" class="form-text text-muted">Please enter password.</small>
+              <small *ngIf="!password.valid && password.errors.minlength && password.touched" id="passwordError" class="form-text text-muted">Password must be at least 8 characters long.</small>
             </div>
             <div class="form-group">
               <label for="confirmPassword">Confirm Password</label>

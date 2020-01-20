@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { AuthState } from '../states/auth.state';
 import { User } from '../../models/auth/user.model';
 import * as AuthActions from '../actions/auth.actions';
+import { AuthService } from 'src/shared/services/auth.service';
 
 const initialState: AuthState = {
     user: null, 
