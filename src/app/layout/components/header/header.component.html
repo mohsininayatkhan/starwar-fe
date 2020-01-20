@@ -1,11 +1,28 @@
 <div class="top-section">
-    <div class="row text-center company-logo">
-        <img 
-            src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Star_Wars_Logo.svg" 
-            height="400" 
-            width="400" 
-            class="center-block img-responsive"
-            name="img-logo"
-        >
-    </div>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+          <div class="navbar-header">
+              <a class="navbar-brand" href="#">Demo</a>                         
+            </div>
+
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li *ngIf="!isAuthenticated" routerLinkActive="active">
+                        <a routerLink="/login">Login</a>
+                    </li>
+                    <li *ngIf="!isAuthenticated" routerLinkActive="active">
+                        <a routerLink="/register">Sign Up</a>
+                    </li>          
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li *ngIf="isAuthenticated">
+                        <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
+                    </li>                    
+                </ul>
+            </div>
+        </div>
+    </nav>
 </div>
+               
+               

@@ -49,7 +49,7 @@ const handleErrors = (error: HttpErrorResponse) => {
 
   if (typeof error.error.message === 'undefined') {
     errorResponse = {
-      message : 'Unknown Error!',
+      message : 'Something went wrong.',
       errors: null
     };               
   } else {

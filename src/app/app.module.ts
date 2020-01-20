@@ -6,6 +6,7 @@ import { LayoutModule } from './layout/layout.module';
 import { PagesModule } from './pages/pages.module'
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from './app.component';
 
@@ -19,6 +20,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
  
 import { ToastrModule } from 'ngx-toastr'
+import { environment } from 'src/environments/environment';
 
 const appRoutes: Routes = [
   {
@@ -45,6 +47,7 @@ const appRoutes: Routes = [
       preventDuplicates: false,
     }),
     StoreModule.forRoot(fromApp.appReducer),
+    StoreDevtoolsModule.instrument({logOnly:environment.production}),
     RouterModule.forRoot(appRoutes),
     EffectsModule.forRoot([AuthEffects]),
   ],

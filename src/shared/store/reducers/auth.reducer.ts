@@ -18,7 +18,8 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
                 user: null,
                 error: null
             };            
-        case AuthActions.Names.REGISTER_SUCCESS:            
+        case AuthActions.Names.REGISTER_SUCCESS: 
+            debugger;           
             const user = new User(
                 action.payload.user.id, 
                 action.payload.user.name, 
@@ -26,6 +27,7 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
                 action.payload.access_token,
                 new Date(action.payload.expires_at)
             );
+            AuthService.store(user);
             return {
                 ...state,
                 user: user,

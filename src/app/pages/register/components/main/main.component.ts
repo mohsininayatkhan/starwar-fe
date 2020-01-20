@@ -20,18 +20,26 @@ export class MainComponent implements OnInit {
     //@ViewChild('form', {static: true}) loginForm: NgForm;
 
     private authError: RegisterModels.RegisterErrorResponse;
+    isAuthenticated = false;
 
-    constructor(private _store: Store<AppState>, private toastr: ToastrService) { }
+    constructor(private _store: Store<AppState>, private toastr: ToastrService, private authService: AuthService) { }
 
     ngOnInit() {
-        
+        console.log('REGISTER');
+        this.isAuthenticated = this.authService.isAuthenticated();
+        console.log(this.isAuthenticated);
         this._store.select('auth').subscribe((authState=> {            
             if(authState.error!==null) {
-                this.authError = authState.error;  
-                this.authError.errors.forEach(element => {
-                    this.toastr.error(this.authError.message, element);
-                });
+                this.authError = authState.error; 
+                if(this.authError.errors!==null) {
+                    this.authError.errors.forEach(element => {
+                        this.toastr.error(this.authError.message, element);
+                    });
+                } else {
+                    this.toastr.error('Sorry!', this.authError.message);
+                }              
 
+                console.log(authState.user);
                 if(authState.user!==null) {
                     console.log(authState.user);
                 }
@@ -40,13 +48,11 @@ export class MainComponent implements OnInit {
     }
 
     onSubmit(form: NgForm) {
-
         if(!form.valid) {
             return;
         }        
 
         const data = form.value;
-        
         const request : RegisterModels.RegiserRequest = {
             name: data.name,
             email: data.email,

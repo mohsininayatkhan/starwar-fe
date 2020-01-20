@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/shared/services/auth.service';
 
 @Component({
     selector: 'login-main',
@@ -11,9 +12,10 @@ export class MainComponent implements OnInit{
     //@ViewChild('form', {static: true}) loginForm: NgForm;
 
     ngOnInit() {        
+        //console.log(AuthService.getUser());
     }
 
     onSubmit(form: NgForm) {
-        console.log(form);
+        //console.log(form);
     }
 }
