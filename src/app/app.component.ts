@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-
+import { AuthService } from 'src/shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,9 @@ import { Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit{
   title = 'Star Wars'; 
   
-  constructor(){}
+  constructor(private authService: AuthService){}
 
-  ngOnInit(){}  
+  ngOnInit(){
+    this.authService.autLogin();
+  }  
 }

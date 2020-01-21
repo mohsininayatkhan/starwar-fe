@@ -1,21 +1,26 @@
 import { Injectable } from '@angular/core';
 import { apiPaths } from '../parameters/backend-endpoints';
 import { HttpClient } from '@angular/common/http';
-import * as RegisterModels from 'src/shared/models/auth/register.models';
+import * as AuthModels from 'src/shared/models/auth/auth.models';
 import { AppState } from 'src/shared/store/states/app.state';
 import { User } from '../models/auth/user.model';
-import { Store, select } from '@ngrx/store';
+import { Store} from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import * as AuthActions from 'src/shared/store/actions/auth.actions';
  
 @Injectable()
 export class AuthService
 {     
     constructor(private http: HttpClient, private store: Store<AppState>){}
 
-    register(request: RegisterModels.RegiserRequest)
+    register(request: AuthModels.RegiserRequest)
     {     
         return this.http.post(apiPaths.auth.register, request);
+    }
+
+    login(request: AuthModels.LoginRequest)
+    {     
+        return this.http.post(apiPaths.auth.login, request);
     }
 
     isAuthenticated()
@@ -36,13 +41,21 @@ export class AuthService
         return this.store.select('auth').pipe(map(authState => authState.user));
     }
     
-    static store(user: User) {
+    storeLocalStorageUser(user: User) {
         localStorage.setItem('me', JSON.stringify(user));
     }
 
-    static getLocalStorageUser()
+    clearLocalStorageUser() {
+        localStorage.removeItem('me');
+    }
+
+    getLocalStorageUser()
     {
-        return localStorage.getItem('me');
+        return JSON.parse(localStorage.getItem('me'));
+    }
+
+    autLogin() {
+        this.store.dispatch(new AuthActions.AutoLogin());
     }
 
 

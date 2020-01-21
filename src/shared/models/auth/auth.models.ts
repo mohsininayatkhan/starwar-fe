@@ -5,7 +5,12 @@ export class RegiserRequest {
     password_confirmation: string;
 }
 
-export interface RegisterSuccessResponse {
+export class LoginRequest {    
+    email: string;
+    password: string;
+}
+
+export interface AuthSuccessResponse {
     user: {
         id: number,
         name: string,
@@ -17,7 +22,7 @@ export interface RegisterSuccessResponse {
     expires_at: string
 }
 
-export interface RegisterErrorResponse {
+export interface AuthErrorResponse {
     message: string,
     errors: any[]
 }

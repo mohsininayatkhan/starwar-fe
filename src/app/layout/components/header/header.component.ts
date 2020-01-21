@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/shared/services/auth.service';
+import { Store} from '@ngrx/store';
+import { AppState } from 'src/shared/store/states/app.state';
+import * as AuthActions from 'src/shared/store/actions/auth.actions';
+import { User } from 'src/shared/models/auth/user.model';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -8,19 +13,20 @@ import { AuthService } from 'src/shared/services/auth.service';
 export class HeaderComponent implements OnInit {
 
   isAuthenticated = false;
+  authUser: User = null;
 
-  constructor(private authService: AuthService) { }
+  constructor(private store: Store<AppState>, private authService: AuthService) { }
 
   ngOnInit() {     
     this.authService.getStoreUser().subscribe(user => {
       if(user!=null) {
         this.isAuthenticated = true;
-      }
+        this.authUser = user;        
+      }      
     });
   }
 
-  onLogout() {
-    console.log(this.authService.isAuthenticated());
+  onLogout() {    
+    this.store.dispatch(new AuthActions.Logout());
   }
-
 }

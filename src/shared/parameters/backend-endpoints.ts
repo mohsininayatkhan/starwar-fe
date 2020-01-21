@@ -9,7 +9,8 @@ export let apiPaths = {
         SpeciesByAppearance : apiServer + 'film/species',
     },
     auth: {
-        register: authServer+'register'
+        register: authServer+'register',
+        login: authServer+'login',
     }
 
 };

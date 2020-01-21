@@ -1,35 +1,49 @@
 import { Action } from '@ngrx/store';
-import * as RegisterModels from  'src/shared/models/auth/register.models';
+import * as AuthModels from  'src/shared/models/auth/auth.models';
 import { User } from 'src/shared/models/auth/user.model';
 
 export enum Names {
-    REGISTER = '[Register Page] Register',
-    REGISTER_SUCCESS = '[Auth API] Register Success',
+    REGISTER = '[Register Page] Register',    
     REGISTER_ERROR = '[Register API] Register Error',
-    LOGIN = '[Login Page] Login',
-    LOGIN_SUCCESS = '[Auth API] Login Success',
-    LOGIN_ERROR = '[Auth API] Login Error',
+    LOGIN = '[Login Page] Login',    
+    AUTH_ERROR = '[Auth API] Auth Error',
+    AUTH_SUCCESS = '[Auth API] Auth Success',
     LOGOUT = '[Logout Link] Logout',
     LOGOUT_SUCCESS = '[Auth API] Logout Success',
+    AUTO_LOGIN = '[Auth] Auto Login',
 }
+
 
 export class Register implements Action {
     readonly type = Names.REGISTER;
 
-    constructor(public payload: RegisterModels.RegiserRequest) {}
+    constructor(public payload: AuthModels.RegiserRequest) {}
 }
 
-export class RegisterSuccess implements Action {
-    readonly type = Names.REGISTER_SUCCESS;
+export class Login implements Action {    
+    readonly type = Names.LOGIN;
 
-    constructor(public payload: RegisterModels.RegisterSuccessResponse) {}
+    constructor(public payload: AuthModels.LoginRequest) {}
 }
 
-export class RegisterError implements Action {
-    readonly type = Names.REGISTER_ERROR
+export class AuthError implements Action {
+    readonly type = Names.AUTH_ERROR;
 
-    //constructor(public payload: RegisterModels.RegisterErrorResponse) {}
-    constructor(public payload: RegisterModels.RegisterErrorResponse) {}
+    constructor(public payload: AuthModels.AuthErrorResponse) {}
 }
 
-export type AuthActionTypes = Register | RegisterSuccess | RegisterError;
+export class AuthSuccess implements Action {
+    readonly type = Names.AUTH_SUCCESS;
+
+    constructor(public payload: AuthModels.AuthSuccessResponse) {}
+}
+
+export class Logout implements Action {
+    readonly type = Names.LOGOUT;
+}
+
+export class AutoLogin implements Action {
+    readonly type = Names.AUTO_LOGIN;
+}
+
+export type AuthActionTypes = Register | Login |  AuthSuccess | AuthError | AutoLogin | Logout;

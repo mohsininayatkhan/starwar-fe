@@ -9,36 +9,45 @@ const initialState: AuthState = {
     error: null,
 };
 
-export function authReducer(state: AuthState = initialState, action: AuthActions.AuthActionTypes) {
-    //action.payload
+export function authReducer(state: AuthState = initialState, action: AuthActions.AuthActionTypes) {    
     switch(action.type) {
         case AuthActions.Names.REGISTER:
             return {
                 ...state,
                 user: null,
                 error: null
-            };            
-        case AuthActions.Names.REGISTER_SUCCESS: 
-            debugger;           
+            };        
+        case AuthActions.Names.LOGIN:
+            return {
+                ...state,
+                user: null,
+                error: null
+            };        
+        case AuthActions.Names.AUTH_ERROR:
+            return {
+                ...state,
+                user: null,
+                error: action.payload
+            };
+        case AuthActions.Names.AUTH_SUCCESS:             
             const user = new User(
-                action.payload.user.id, 
-                action.payload.user.name, 
+                action.payload.user.id,                 
                 action.payload.user.email,
+                action.payload.user.name,
                 action.payload.access_token,
                 new Date(action.payload.expires_at)
             );
-            AuthService.store(user);
             return {
                 ...state,
                 user: user,
                 error: null
             };
-        case AuthActions.Names.REGISTER_ERROR:
+        case AuthActions.Names.LOGOUT:
             return {
                 ...state,
                 user: null,
-                error: action.payload
-            };            
+                error: null
+            }            
         default:
             return state;
     }
