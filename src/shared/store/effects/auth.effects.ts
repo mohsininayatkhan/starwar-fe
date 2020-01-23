@@ -67,7 +67,7 @@ export class AuthEffects {
     ofType(AuthActions.Names.LOGOUT),
     tap(() => {
       this.authService.clearLocalStorageUser();
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
     })
   );
 

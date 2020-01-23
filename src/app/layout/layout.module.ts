@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { ContentComponent } from './components/content/content.component';
 import { MainComponent } from './components/main/main.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { MainComponent } from './components/main/main.component';
     imports: [
         RouterModule,
         BrowserModule,
-        CommonModule
+        CommonModule,
+        NgbModule
     ],
     exports: [
         MainComponent

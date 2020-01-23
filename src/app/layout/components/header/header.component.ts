@@ -19,10 +19,11 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {     
     this.authService.getStoreUser().subscribe(user => {
-      if(user!=null) {
-        this.isAuthenticated = true;
-        this.authUser = user;        
-      }      
+      this.authUser = user;
+      this.isAuthenticated = false;
+      if(this.authUser!=null) {
+        this.isAuthenticated = true;        
+      }
     });
   }
 

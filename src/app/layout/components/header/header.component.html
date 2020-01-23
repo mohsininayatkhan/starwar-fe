@@ -15,21 +15,17 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-                    <li routerLink="/" href="#" *ngIf="isAuthenticated" class="dropdown">
+                    <li href="#" *ngIf="isAuthenticated" class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             {{ authUser.name }} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                          <li><a href="#">My Profile</a></li>                        
-                        </ul>
-                      </li>
-                    <li *ngIf="isAuthenticated">
-                        <a style="cursor: pointer;" (click)="onLogout()">Logout</a>
+                          <li><a routerLink="/">My Profile</a></li>
+                          <li><a style="cursor: pointer;" (click)="onLogout()">Logout</a></li>
+                        </ul>                        
                     </li>                    
                 </ul>
             </div>
         </div>
     </nav>
-</div>
-               
-               
+</div>  
