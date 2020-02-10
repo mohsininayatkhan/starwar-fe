@@ -1,0 +1,7 @@
+<div class="well"> 
+    <!-- TEXTBOX FOR NEW POST -->
+    <timeline-mypost *ngIf="isAuthenticated"></timeline-mypost>
+
+    <!-- POSTS -->
+    <timeline-post *ngFor="let post of posts | async" [post]="post"></timeline-post>
+</div>

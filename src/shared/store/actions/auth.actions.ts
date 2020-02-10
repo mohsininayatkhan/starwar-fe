@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
-import { User } from 'src/shared/models/auth/user.model';
 
 export enum Names {
     REGISTER = '[Register Page] Register',    

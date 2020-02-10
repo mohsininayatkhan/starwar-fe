@@ -9,7 +9,7 @@ const initialState: AuthState = {
     error: null,
 };
 
-export function authReducer(state: AuthState = initialState, action: AuthActions.AuthActionTypes) {    
+export function authReducer(state: AuthState = initialState, action: AuthActions.AuthActionTypes) :AuthState {    
     switch(action.type) {
         case AuthActions.Names.REGISTER:
             return {

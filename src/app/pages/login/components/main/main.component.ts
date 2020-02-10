@@ -16,10 +16,10 @@ export class MainComponent implements OnInit{
 
     private authError: AuthModels.AuthErrorResponse;    
     
-    constructor(private _store: Store<AppState>, private toastr: ToastrService) { }
+    constructor(private store: Store<AppState>, private toastr: ToastrService) { }
 
     ngOnInit() {        
-        this._store.select('auth').subscribe((authState=> {            
+        this.store.select('auth').subscribe((authState=> {            
             /* error handling */
             if(authState.error!==null) {
                 this.authError = authState.error; 
@@ -44,6 +44,6 @@ export class MainComponent implements OnInit{
             email: data.email,
             password: data.password
         };        
-        this._store.dispatch(new Login(request));
+        this.store.dispatch(new Login(request));
     }
 }

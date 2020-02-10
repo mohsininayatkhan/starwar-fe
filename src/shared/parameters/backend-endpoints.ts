@@ -1,5 +1,5 @@
 export let apiServer = 'http://10.1.5.113:81/starwar/public/api/';
-export let authServer = 'http://10.1.5.113:81/rec/public/api/';
+export let server = 'http://10.1.5.113:81/rec/public/api/';
 
 export let apiPaths = {
     film : {
@@ -9,8 +9,13 @@ export let apiPaths = {
         SpeciesByAppearance : apiServer + 'film/species',
     },
     auth: {
-        register: authServer+'register',
-        login: authServer+'login',
+        register: server+'register',
+        login: server+'login',
+    },
+    timeline: {
+        post: {
+            getAllPosts: server+'post',
+        }        
     }
 
 };

@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from 'src/shared/services/auth.service';
 import { Store } from '@ngrx/store';
 import { Register, AuthError, AuthSuccess } from 'src/shared/store/actions/auth.actions';
 import { AppState } from 'src/shared/store/states/app.state';
-import { User } from 'src/shared/models/auth/user.model';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
 import { ToastrService } from 'ngx-toastr';
 
@@ -20,10 +18,10 @@ export class MainComponent implements OnInit {
 
     private authError: AuthModels.AuthErrorResponse;    
 
-    constructor(private _store: Store<AppState>, private toastr: ToastrService) { }
+    constructor(private store: Store<AppState>, private toastr: ToastrService) { }
 
     ngOnInit() {        
-        this._store.select('auth').subscribe((authState=> {            
+        this.store.select('auth').subscribe((authState=> {            
             /* error handling */
             if(authState.error!==null) {
                 this.authError = authState.error; 
@@ -50,6 +48,6 @@ export class MainComponent implements OnInit {
             password: data.password,
             password_confirmation: data.confirmPassword
         };        
-        this._store.dispatch(new Register(request));
+        this.store.dispatch(new Register(request));
     }    
 }
