@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { GetAllPosts, GetAllPostsError, GetAllPostsSuccess } from 'src/shared/store/actions/post.actions';
+import { GetAllPosts, CreatePost } from 'src/shared/store/actions/post.actions';
 import { AppState } from 'src/shared/store/states/app.state';
-import { Post } from  'src/shared/models/timeline/post.models';
+import { Post, CreatePostRequest, PostErrorResponse  } from  'src/shared/models/timeline/post.models';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/shared/services/auth.service';
 import { selectAllPosts, selectPostEntities } from 'src/shared/store/selectors/post.selectors';
@@ -20,6 +20,7 @@ export class MainComponent implements OnInit{
     
     posts: Observable<Post[]>;
     isAuthenticated = false;
+    private postError: PostErrorResponse;    
 
     constructor(
         private store: Store<AppState>, 
@@ -27,9 +28,31 @@ export class MainComponent implements OnInit{
         private toastr: ToastrService
     ) { }
 
-    ngOnInit() {     
+    ngOnInit() { 
+        this.errorHandling();
+
         this.isAuthenticated = this.authService.isAuthenticated();
         this.store.dispatch(new GetAllPosts());
-        this.posts = this.store.pipe(select(selectAllPosts));        
+        this.posts = this.store.pipe(select(selectAllPosts));
+    }
+
+    errorHandling() {
+        this.store.select('posts').subscribe((postState=> {            
+            /* error handling */
+            if(postState.error!==null) {
+                this.postError = postState.error; 
+                if(this.postError.errors!==null) {
+                    this.postError.errors.forEach(element => {
+                        this.toastr.error(this.postError.message, element);
+                    });
+                } else {
+                    this.toastr.error('Sorry!', this.postError.message);
+                }
+            }
+        }));
+    }
+
+    createPost(data: CreatePostRequest) {
+        this.store.dispatch(new CreatePost(data));
     }
 }

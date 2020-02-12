@@ -1,4 +1,30 @@
-<div class="form-group shadow-textarea">
-    <label for="mypost">What is on your mind</label>
-    <textarea class="form-control z-depth-1" id="mypost" rows="3" placeholder="Write something here..."></textarea>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="well well-sm well-social-post">
+            <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+                <ul class="list-inline" id='list_PostActions'>
+                    <li class='active'><a href='#'>Update status</a></li>
+                    <li><a href='#'>Add photos/Video</a></li>
+                    <li><a href='#'>Create photo album</a></li>
+                </ul>
+                <textarea 
+                    ngModel 
+                    name="mypost" 
+                    id="mypost"
+                    class="form-control" 
+                    placeholder="What's in your mind?" 
+                    required 
+                    minlength="5"
+                ></textarea>
+                <ul class='list-inline post-actions'>
+                    <li><a href="#"><span class="glyphicon glyphicon-camera"></span></a></li>
+                    <li><a href="#" class='glyphicon glyphicon-user'></a></li>
+                    <li><a href="#" class='glyphicon glyphicon-map-marker'></a></li>
+                    <li class='pull-right'>
+                        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Post</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
 </div>

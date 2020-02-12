@@ -7,6 +7,8 @@ import { User } from '../models/auth/user.model';
 import { Store} from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import * as AuthActions from 'src/shared/store/actions/auth.actions';
+import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
  
 @Injectable()
 export class AuthService
@@ -56,7 +58,6 @@ export class AuthService
 
     autLogin() {
         this.store.dispatch(new AuthActions.AutoLogin());
-    }
-
+    }   
 
 }

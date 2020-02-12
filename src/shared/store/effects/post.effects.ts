@@ -25,12 +25,38 @@ export class PostEffects {
               }
             ),
             catchError((error: HttpErrorResponse) => {              
-              return handleErrors(error);
+              let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+              return of(new PostActions.GetAllPostsError(errorResponse));
             })
           )
         }
       )
   );
+
+  @Effect() 
+    createPost$ = this.actions$
+    .pipe(
+      ofType<PostActions.CreatePost>(PostActions.Names.CREATE_POST),
+      mergeMap(
+        (data) => {           
+          return this.postService.createPost(data.payload)
+          .pipe(
+            map(
+              (response) => {  
+                debugger;        
+                return new PostActions.CreatePostSuccess(<PostModels.Post>response);
+              }
+            ),
+            catchError((error: HttpErrorResponse) => {              
+              let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+              return of(new PostActions.CreatePostError(errorResponse));
+            })
+          )
+        }
+      )
+  );
+
+
 
   constructor(
       private actions$: Actions,
@@ -46,6 +72,11 @@ const handleErrors = (error: HttpErrorResponse) => {
         message : 'Something went wrong.',
         errors: null
       };               
+    } if(typeof error.error.errors === 'undefined') {
+      errorResponse = {
+        message: error.error.message,
+        errors: null
+      }
     } else {
       const errorDetail = error.error.errors;
       const errorFields = Object.keys(errorDetail);
@@ -63,5 +94,5 @@ const handleErrors = (error: HttpErrorResponse) => {
         errors: errorsList
       }
     }
-    return of(new PostActions.GetAllPostsError(errorResponse));
+    return errorResponse;    
   };

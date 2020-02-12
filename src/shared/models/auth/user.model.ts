@@ -5,5 +5,9 @@ export class User {
         public name: string,
         private token: string,
         private _tokenExpiryDate: Date
-    ) {}    
+    ) {}   
+    
+    getToken() {
+        return this.token;
+    }
 }

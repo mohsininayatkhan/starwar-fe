@@ -24,5 +24,5 @@ export interface AuthSuccessResponse {
 
 export interface AuthErrorResponse {
     message: string,
-    errors: any[]
+    errors?: any[]
 }

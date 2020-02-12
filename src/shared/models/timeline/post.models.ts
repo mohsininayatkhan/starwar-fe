@@ -1,11 +1,11 @@
 export class Post {    
     id : number;
     title: string;
-    description: string;
+    description?: string;
     user_id: number;
     created_at: string;
     update_at: string;
-    author: Author
+    author?: Author
 }
 
 export class Author {    
@@ -24,5 +24,10 @@ export interface PostSuccessResponse {
 
 export interface PostErrorResponse {
     message: string,
-    errors: any[]
+    errors?: any[]
+}
+
+export interface CreatePostRequest {
+    title: string,
+    description?: string;
 }
