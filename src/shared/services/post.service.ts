@@ -11,8 +11,8 @@ export class PostService
 {     
     constructor(private http: HttpClient, private auth: AuthService){}
 
-    getAll() {     
-        return this.http.get(apiPaths.timeline.post.getAllPosts);
+    getAll(url: string) {     
+        return this.http.get(url);
     }
 
     createPost(request: CreatePostRequest) {

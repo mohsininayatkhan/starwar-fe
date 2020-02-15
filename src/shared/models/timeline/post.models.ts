@@ -18,8 +18,16 @@ export class Author {
     posts_count: number;
 }
 
-export interface PostSuccessResponse {
-    posts: Post[]
+export class PostSuccessResponse {
+    data: Post[];
+    current_page: string;
+    first_page_url: string;
+    from: string;
+    next_page_url?: string;
+    path: string;
+    per_page: string;
+    prev_page_url?: null;
+    to: string;
 }
 
 export interface PostErrorResponse {

@@ -16,12 +16,12 @@ export class PostEffects {
     .pipe(
       ofType<PostActions.GetAllPosts>(PostActions.Names.GET_ALL_POSTS),
       mergeMap(
-        () => {           
-          return this.postService.getAll()
+        (data) => {           
+          return this.postService.getAll(data.payload)
           .pipe(
             map(
               (response) => {          
-                return new PostActions.GetAllPostsSuccess(<PostModels.Post[]>response);
+                return new PostActions.GetAllPostsSuccess(<PostModels.PostSuccessResponse>response);
               }
             ),
             catchError((error: HttpErrorResponse) => {              

@@ -5,6 +5,14 @@ export interface PostState extends EntityState<Post> {
     selectedPostId: number,
     error: PostErrorResponse;
     loading: boolean;
+    current_page: string;
+    first_page_url: string;
+    from: string;
+    next_page_url?: string;
+    path: string;
+    per_page: string;
+    prev_page_url?: null;
+    to: string;
 }
 
 export function selectedPostId(p: Post): number {

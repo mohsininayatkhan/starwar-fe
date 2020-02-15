@@ -54,7 +54,7 @@ const appRoutes: Routes = [
     }),
     StoreModule.forRoot(fromApp.appReducer),
     StoreDevtoolsModule.instrument({logOnly:environment.production}),
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes, {scrollPositionRestoration: 'enabled'}),
     EffectsModule.forRoot([AuthEffects, PostEffects]),
   ],
   schemas: [

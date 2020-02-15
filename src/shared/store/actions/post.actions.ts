@@ -8,15 +8,21 @@ export enum Names {
     CREATE_POST = '[Timeline Page] Create Post',
     CREATE_POST_SUCCESS = '[Timeline Page] Create Post Success',
     CREATE_POST_ERROR = '[Timeline Page] Create Post Error',
+    RESET_POSTS = '[Timeline Page] Reset Posts',
+}
+
+export class ResetPosts implements Action {
+    readonly type = Names.RESET_POSTS;    
 }
 
 export class GetAllPosts implements Action {
-    readonly type = Names.GET_ALL_POSTS;    
+    readonly type = Names.GET_ALL_POSTS;
+    constructor(public payload: string) {}
 }
 
 export class GetAllPostsSuccess implements Action {
     readonly type = Names.GET_ALL_POSTS_SUCCESS;
-    constructor(public payload: PostModels.Post[]) {}
+    constructor(public payload: PostModels.PostSuccessResponse) {}
 }
 
 export class GetAllPostsError implements Action {
@@ -40,6 +46,7 @@ export class CreatePostError implements Action {
 }
 
 export type PostActionTypes = 
+ResetPosts | 
 GetAllPosts | 
 GetAllPostsSuccess |  
 GetAllPostsError | 

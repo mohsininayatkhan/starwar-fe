@@ -12,19 +12,50 @@ export const postAdapter: EntityAdapter<Post> = createEntityAdapter<Post>({
 const initialState = postAdapter.getInitialState({
     selectedPostId: null,
     error: null,
-    loading: false
+    loading: false,
+    current_page: null,
+    first_page_url: null,
+    from: null,
+    next_page_url: null,
+    path: null,
+    per_page: null,
+    prev_page_url: null,
+    to: null,
 });
 
 export function postReducer(state: PostState = initialState, action: PostActions.PostActionTypes) :PostState {    
     switch(action.type) {
+        case PostActions.Names.RESET_POSTS:
+            return initialState;
         case PostActions.Names.GET_ALL_POSTS:
             return {
                 ...state,
                 loading: true,
-                error: null
+                error: null,
+                current_page: null,
+                first_page_url: null, 
+                from: null, 
+                next_page_url: null, 
+                path: null, 
+                per_page: null, 
+                prev_page_url: null, 
+                to: null
             };
         case PostActions.Names.GET_ALL_POSTS_SUCCESS:
-            return postAdapter.addMany(action.payload, { ...state, loading: false, error: null});
+            return postAdapter.addMany(
+                action.payload.data, { 
+                    ...state, 
+                    loading: false, 
+                    error: null,
+                    current_page: action.payload.current_page,
+                    first_page_url: action.payload.first_page_url, 
+                    from: action.payload.from, 
+                    next_page_url: action.payload.next_page_url, 
+                    path: action.payload.path, 
+                    per_page: action.payload.per_page, 
+                    prev_page_url: action.payload.prev_page_url, 
+                    to: action.payload.to
+                });
         case PostActions.Names.GET_ALL_POSTS_ERROR:             
             return {
                 ...state,
@@ -54,7 +85,7 @@ const {
     selectAll,
     selectEntities,
     selectIds,
-    selectTotal
+    selectTotal,
 } = postAdapter.getSelectors();
 
 

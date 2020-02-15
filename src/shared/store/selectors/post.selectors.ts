@@ -23,3 +23,11 @@ export const selectPostTotal = createSelector(
     selectPostState,
     fromPost.selectPostTotal
 );
+
+
+export const getNextPageUrl = createSelector(
+    selectPostState,
+    (state: PostState) => {         
+        return state.next_page_url
+    }
+);
