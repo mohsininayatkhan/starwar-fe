@@ -1,0 +1,12 @@
+<div class="well">   
+    <div class="row profile">
+		<div class="col-md-3">
+			<profile-sidebar (uploadUserPhoto)="uploadPhoto($event)" [user]="authUser"></profile-sidebar>
+		</div>
+		<div class="col-md-9">
+			<profile-content>
+        		Some user related content goes here...
+      		</profile-content>
+		</div>
+	</div>
+</div>

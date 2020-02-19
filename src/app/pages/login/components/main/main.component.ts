@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Login, AuthSuccess, AuthError } from 'src/shared/store/actions/auth.actions';
+import { Login } from 'src/shared/store/actions/auth.actions';
 import { AppState } from 'src/shared/store/states/app.state';
-import { User } from 'src/shared/models/auth/user.model';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
 import { ToastrService } from 'ngx-toastr';
 

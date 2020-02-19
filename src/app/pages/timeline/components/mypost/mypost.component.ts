@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 import { CreatePostRequest, Post } from 'src/shared/models/timeline/post.models';
@@ -10,7 +10,7 @@ import { CreatePostRequest, Post } from 'src/shared/models/timeline/post.models'
 })
 export class MyPostComponent implements OnInit {   
 
-    @Output() createPostRequest = new EventEmitter<CreatePostRequest>();ef;
+    @Output() createPostRequest = new EventEmitter<CreatePostRequest>();
     constructor() {}
 
     ngOnInit() {}

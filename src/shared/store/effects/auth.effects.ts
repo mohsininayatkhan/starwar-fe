@@ -11,95 +11,142 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
-  
-    @Effect() regiser$ = this.actions$
-    .pipe(
-      ofType<AuthActions.Register>(AuthActions.Names.REGISTER),
-      mergeMap(
-        (data) => {          
-          return this.authService.register(data.payload)
-          .pipe(
-            map(
-              (response) => { 
-                this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
-                return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
-              }
-            ),
-            catchError((error: HttpErrorResponse) => {              
-              return handleErrors(error);
-            })
-          )
-        }
-      )
-  );
-
-  @Effect() login$ = this.actions$
-    .pipe(
-      ofType<AuthActions.Register>(AuthActions.Names.LOGIN),
-      mergeMap(
-        (data) => {       
-          return this.authService.login(data.payload)
-          .pipe(
-            map(
-              (response) => {  
-                this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
-                return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
-              }
-            ),
-            catchError((error: HttpErrorResponse) => {              
-              return handleErrors(error);
-            })
-          )
-        }
-      )
-  );
-
-  @Effect({ dispatch: false })
-  authSuccess = this.actions$.pipe(
-    ofType(AuthActions.Names.AUTH_SUCCESS),
-    tap(() => {
-      this.router.navigate(['/']);
-    })
-  );  
-
-  @Effect({ dispatch: false })
-  $logout$ = this.actions$.pipe(
-    ofType(AuthActions.Names.LOGOUT),
-    tap(() => {
-      this.authService.clearLocalStorageUser();
-      this.router.navigate(['/login']);
-    })
-  );
-
-  @Effect()
-  autoLogin = this.actions$.pipe(
-    ofType(AuthActions.Names.AUTO_LOGIN),
-    map(() => {      
-      const user = this.authService.getLocalStorageUser();
-      if (!user) {
-        return { type: 'DUMMY' };
-      }
-
-      const data = {
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          updated_at: '',
-          created_at: ''
-        },
-        access_token: user.token,
-        expires_at: user._tokenExpiryDate,
-      };
-      return new AuthActions.AuthSuccess(data);       
-    })
-  );
 
   constructor(
     private actions$: Actions,
     private authService: AuthService,
     private router: Router
   ) {}
+  
+  @Effect() 
+  regiser$ = this.actions$
+  .pipe(
+    ofType<AuthActions.Register>(AuthActions.Names.REGISTER),
+    mergeMap(
+      (data) => {          
+        return this.authService.register(data.payload)
+        .pipe(
+          map(
+            (response) => { 
+              this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
+              return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
+            }
+          ),
+          catchError((error: HttpErrorResponse) => {              
+            return handleErrors(error);
+          })
+        )
+      }
+    )
+);
+
+@Effect() 
+login$ = this.actions$
+  .pipe(
+    ofType<AuthActions.Login>(AuthActions.Names.LOGIN),
+    mergeMap(
+      (data) => {       
+        return this.authService.login(data.payload)
+        .pipe(
+          map(
+            (response) => {  
+              this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
+              return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
+            }
+          ),
+          catchError((error: HttpErrorResponse) => {              
+            return handleErrors(error);
+          })
+        )
+      }
+    )
+);
+
+@Effect() 
+logout$ = this.actions$
+  .pipe(
+    ofType<AuthActions.Logout>(AuthActions.Names.LOGOUT),
+    mergeMap(
+      (data) => {       
+        return this.authService.logout()
+        .pipe(
+          map(
+            (response) => {  
+              this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
+              return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
+            }
+          ),
+          catchError((error: HttpErrorResponse) => {              
+            return handleErrors(error);
+          })
+        )
+      }
+    )
+);
+
+@Effect() 
+uploadProfilePhoto$ = this.actions$
+  .pipe(
+    ofType<AuthActions.UploadUserProfilePhoto>(AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO),
+    mergeMap(
+      (data) => {       
+        return this.authService.uploadPhoto(data.payload)
+        .pipe(
+          map(
+            (response) => {  
+              //this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
+              return new AuthActions.UploadUserProfilePhotoSuccess(<AuthModels.uploadPhotoResponse>response);
+            }
+          ),
+          catchError((error: HttpErrorResponse) => {              
+            return handleErrors(error);
+          })
+        )
+      }
+    )
+);
+
+@Effect({ dispatch: false })
+authSuccess = this.actions$.pipe(
+  ofType(AuthActions.Names.AUTH_SUCCESS),
+  tap(() => {
+    this.router.navigate(['/']);
+  })
+);  
+
+@Effect({ dispatch: false })
+$logout$ = this.actions$.pipe(
+  ofType(AuthActions.Names.LOGOUT),
+  tap(() => {
+    this.authService.clearLocalStorageUser();
+    this.router.navigate(['/login']);
+  })
+);
+
+@Effect()
+autoLogin = this.actions$.pipe(
+  ofType(AuthActions.Names.AUTO_LOGIN),
+  map(() => {      
+    const user = this.authService.getLocalStorageUser();
+    if (!user) {
+      return { type: 'DUMMY' };
+    }
+
+    const data = {
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        profile_picture: user.profile_picture,
+        updated_at: '',
+        created_at: ''
+      },
+      access_token: user.token,
+      expires_at: user._tokenExpiryDate,
+    };
+    return new AuthActions.AuthSuccess(data);       
+  })
+); 
 
   storeUserInLocalStorage(userInfo: AuthModels.AuthSuccessResponse)
   {
@@ -108,12 +155,12 @@ export class AuthEffects {
       userInfo.user.email, 
       userInfo.user.name, 
       userInfo.access_token,
-      new Date(userInfo.expires_at)
+      new Date(userInfo.expires_at),
+      userInfo.user.profile_picture
     );
     this.authService.storeLocalStorageUser(user);
   }
 }
-
 
 const handleErrors = (error: HttpErrorResponse) => {
   let errorResponse: AuthModels.AuthErrorResponse;

@@ -7,13 +7,12 @@ import { User } from '../models/auth/user.model';
 import { Store} from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import * as AuthActions from 'src/shared/store/actions/auth.actions';
-import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
  
 @Injectable()
 export class AuthService
 {     
-    constructor(private http: HttpClient, private store: Store<AppState>){}
+    constructor(private http: HttpClient, private store: Store<AppState>) {}
 
     register(request: AuthModels.RegiserRequest)
     {     
@@ -23,6 +22,46 @@ export class AuthService
     login(request: AuthModels.LoginRequest)
     {     
         return this.http.post(apiPaths.auth.login, request);
+    }
+
+    uploadPhoto(request: AuthModels.UploadPhotoRequest)
+    {
+        let token = '';
+        const user = this.getLocalStorageUser();    
+        
+        if(user!= null) {
+            token = user.token;
+        }
+
+        const formData: FormData = new FormData();
+        formData.append('photo', request.photo, request.photo.name);
+
+        const httpOptions = {
+            headers: new HttpHeaders({                
+                'Authorization': 'Bearer ' + token
+            })
+        };      
+        return this.http.post(apiPaths.auth.uploadPhoto, formData, httpOptions);
+    }
+
+    logout()
+    {
+        let token = '';
+        const user = this.getLocalStorageUser();    
+        
+        if(user!= null) {
+            token = user.token;
+        }
+
+        let request = {};
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type':  'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        };
+        return this.http.post(apiPaths.auth.logout, request, httpOptions);
     }
 
     isAuthenticated()
@@ -58,6 +97,5 @@ export class AuthService
 
     autLogin() {
         this.store.dispatch(new AuthActions.AutoLogin());
-    }   
-
+    }
 }

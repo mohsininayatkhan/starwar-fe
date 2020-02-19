@@ -11,6 +11,8 @@ export let apiPaths = {
     auth: {
         register: server+'register',
         login: server+'login',
+        logout: server+'logout',
+        uploadPhoto: server+'user/picture',
     },
     timeline: {
         post: {

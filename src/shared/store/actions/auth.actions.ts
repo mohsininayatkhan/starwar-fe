@@ -10,8 +10,10 @@ export enum Names {
     LOGOUT = '[Logout Link] Logout',
     LOGOUT_SUCCESS = '[Auth API] Logout Success',
     AUTO_LOGIN = '[Auth] Auto Login',
+    UPLOAD_USER_PROFILE_PHOTO = '[User Profile Page] Upload Photo', 
+    UPLOAD_USER_PROFILE_PHOTO_SUCCESS = '[User Profile Page] Upload Photo Success',
+    UPLOAD_USER_PROFILE_PHOTO_ERROR = '[User Profile Page] Upload Photo Error',
 }
-
 
 export class Register implements Action {
     readonly type = Names.REGISTER;
@@ -45,4 +47,28 @@ export class AutoLogin implements Action {
     readonly type = Names.AUTO_LOGIN;
 }
 
-export type AuthActionTypes = Register | Login |  AuthSuccess | AuthError | AutoLogin | Logout;
+export class UploadUserProfilePhoto implements Action {
+    readonly type = Names.UPLOAD_USER_PROFILE_PHOTO;    
+    constructor(public payload: AuthModels.UploadPhotoRequest) {}
+}
+
+export class UploadUserProfilePhotoSuccess implements Action {
+    readonly type = Names.UPLOAD_USER_PROFILE_PHOTO_SUCCESS;
+    constructor(public payload: AuthModels.uploadPhotoResponse) {}
+}
+
+export class UploadUserProfilePhotoError implements Action {
+    readonly type = Names.UPLOAD_USER_PROFILE_PHOTO_ERROR;
+    constructor(public payload: AuthModels.AuthErrorResponse) {}
+}
+
+export type AuthActionTypes = 
+Register | 
+Login | 
+AuthSuccess | 
+AuthError | 
+AutoLogin | 
+Logout |
+UploadUserProfilePhoto | 
+UploadUserProfilePhotoSuccess | 
+UploadUserProfilePhotoError;

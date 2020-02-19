@@ -16,8 +16,8 @@ import { take } from 'rxjs/operators';
     styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit, OnDestroy{
-
-    //private postError: PostModels.PostErrorResponse;    
+  //private postError: PostModels.PostErrorResponse;    
+  
     posts: Observable<Post[]>;
     
     isAuthenticated = false;

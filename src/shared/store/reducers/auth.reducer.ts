@@ -33,9 +33,10 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
             const user = new User(
                 action.payload.user.id,                 
                 action.payload.user.email,
-                action.payload.user.name,
+                action.payload.user.name,                
                 action.payload.access_token,
-                new Date(action.payload.expires_at)
+                new Date(action.payload.expires_at),
+                action.payload.user.profile_picture,
             );
             return {
                 ...state,
@@ -47,7 +48,29 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
                 ...state,
                 user: null,
                 error: null
-            }            
+            }
+        case AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO:
+            return state;
+        case AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO_SUCCESS:            
+            const stateUser = {
+                ...state.user
+            }
+            const updatedUser = new User(
+                stateUser.id,                 
+                stateUser.email,
+                stateUser.name,                
+                stateUser.token,
+                stateUser._tokenExpiryDate,
+                action.payload.url,
+            );
+            
+            return {
+                ...state,
+                user: updatedUser
+            }
+            return state;
+        case AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO_ERROR:
+            return state;            
         default:
             return state;
     }

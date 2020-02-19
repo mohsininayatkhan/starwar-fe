@@ -31,7 +31,7 @@ import { environment } from 'src/environments/environment';
 const appRoutes: Routes = [
   {
     path: '', 
-    redirectTo: '/landing',
+    redirectTo: '/timeline',
     pathMatch: 'full'
   },
 ];

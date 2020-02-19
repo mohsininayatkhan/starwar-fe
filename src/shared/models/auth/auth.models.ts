@@ -10,11 +10,16 @@ export class LoginRequest {
     password: string;
 }
 
+export class UploadPhotoRequest {
+    photo: File
+}
+
 export interface AuthSuccessResponse {
     user: {
         id: number,
         name: string,
         email: string,
+        profile_picture: string,
         updated_at: string,
         created_at: string
     },
@@ -25,4 +30,8 @@ export interface AuthSuccessResponse {
 export interface AuthErrorResponse {
     message: string,
     errors?: any[]
+}
+
+export interface uploadPhotoResponse {
+    url: string
 }

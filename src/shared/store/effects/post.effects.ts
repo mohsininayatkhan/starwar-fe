@@ -10,27 +10,31 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class PostEffects {
+  constructor(
+    private actions$: Actions,
+    private postService: PostService
+  ) {}
 
-    @Effect() 
-    getAllPosts$ = this.actions$
-    .pipe(
-      ofType<PostActions.GetAllPosts>(PostActions.Names.GET_ALL_POSTS),
-      mergeMap(
-        (data) => {           
-          return this.postService.getAll(data.payload)
-          .pipe(
-            map(
-              (response) => {          
-                return new PostActions.GetAllPostsSuccess(<PostModels.PostSuccessResponse>response);
-              }
-            ),
-            catchError((error: HttpErrorResponse) => {              
-              let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
-              return of(new PostActions.GetAllPostsError(errorResponse));
-            })
-          )
-        }
-      )
+  @Effect() 
+  getAllPosts$ = this.actions$
+  .pipe(
+    ofType<PostActions.GetAllPosts>(PostActions.Names.GET_ALL_POSTS),
+    mergeMap(
+      (data) => {           
+        return this.postService.getAll(data.payload)
+        .pipe(
+          map(
+            (response) => {          
+              return new PostActions.GetAllPostsSuccess(<PostModels.PostSuccessResponse>response);
+            }
+          ),
+          catchError((error: HttpErrorResponse) => {              
+            let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+            return of(new PostActions.GetAllPostsError(errorResponse));
+          })
+        )
+      }
+    )
   );
 
   @Effect() 
@@ -54,14 +58,7 @@ export class PostEffects {
           )
         }
       )
-  );
-
-
-
-  constructor(
-      private actions$: Actions,
-      private postService: PostService
-    ) {}
+  );  
 }
 
 const handleErrors = (error: HttpErrorResponse) => {
@@ -72,7 +69,7 @@ const handleErrors = (error: HttpErrorResponse) => {
         message : 'Something went wrong.',
         errors: null
       };               
-    } if(typeof error.error.errors === 'undefined') {
+    } else if(typeof error.error.errors === 'undefined') {
       errorResponse = {
         message: error.error.message,
         errors: null
