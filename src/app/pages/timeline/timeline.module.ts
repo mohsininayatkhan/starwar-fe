@@ -7,7 +7,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MainComponent } from './components/main/main.component';
 import { PostComponent } from './components/post/post.component';
 import { MyPostComponent } from './components/mypost/mypost.component';
-
+import { ItemComponent } from './components/item/item.component';
 
 const routes = [
     {
@@ -20,6 +20,7 @@ const routes = [
         MainComponent,
         PostComponent,
         MyPostComponent,
+        ItemComponent,
     ],
     imports: [
         FormsModule,

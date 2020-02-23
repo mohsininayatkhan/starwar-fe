@@ -5,7 +5,8 @@ export class Post {
     user_id: number;
     created_at: string;
     update_at: string;
-    author?: Author
+    author?: Author;
+    items: Item[];
 }
 
 export class Author {    
@@ -16,6 +17,16 @@ export class Author {
     created_at: string;
     updated_at: string;
     posts_count: number;
+}
+
+export class Item {    
+    id: number;
+    title?: string;
+    source: string;
+    post_id: number;
+    type: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export class PostSuccessResponse {
