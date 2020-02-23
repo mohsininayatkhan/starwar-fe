@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { GetAllPosts, CreatePost, ResetPosts } from 'src/shared/store/actions/post.actions';
+import { GetAllPosts, CreatePost, ResetPosts, UploadPhotos } from 'src/shared/store/actions/post.actions';
 import { AppState } from 'src/shared/store/states/app.state';
-import { Post, CreatePostRequest, PostErrorResponse  } from  'src/shared/models/timeline/post.models';
+import { Post, CreatePostRequest, PostErrorResponse, UploadPhotosRequest  } from  'src/shared/models/timeline/post.models';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/shared/services/auth.service';
 import { selectAllPosts, selectPostEntities, getNextPageUrl } from 'src/shared/store/selectors/post.selectors';
@@ -61,6 +61,13 @@ export class MainComponent implements OnInit, OnDestroy{
 
     createPost(data: CreatePostRequest) {
         this.store.dispatch(new CreatePost(data));
+    }
+
+    uploadPhotos(data: File[]) {
+        const request : UploadPhotosRequest = {
+            photos: data
+        }; 
+        this.store.dispatch(new UploadPhotos(request));
     }
 
     onScroll() {

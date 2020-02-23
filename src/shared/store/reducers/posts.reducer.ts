@@ -63,6 +63,7 @@ export function postReducer(state: PostState = initialState, action: PostActions
                 error: action.payload
             };
         case PostActions.Names.CREATE_POST:
+        case PostActions.Names.UPLOAD_PHOTOS:
             return {
                 ...state,
                 loading: true,

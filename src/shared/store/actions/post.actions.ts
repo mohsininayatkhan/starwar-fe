@@ -6,6 +6,7 @@ export enum Names {
     GET_ALL_POSTS_SUCCESS = '[Timeline Page] Get Posts Success',
     GET_ALL_POSTS_ERROR = '[Timeline Page] Get Posts Error',
     CREATE_POST = '[Timeline Page] Create Post',
+    UPLOAD_PHOTOS = '[Timeline Page] Upload Post Photos',
     CREATE_POST_SUCCESS = '[Timeline Page] Create Post Success',
     CREATE_POST_ERROR = '[Timeline Page] Create Post Error',
     RESET_POSTS = '[Timeline Page] Reset Posts',
@@ -35,6 +36,11 @@ export class CreatePost implements Action {
     constructor(public payload: PostModels.CreatePostRequest) {}
 }
 
+export class UploadPhotos implements Action {
+    readonly type = Names.UPLOAD_PHOTOS;
+    constructor(public payload: PostModels.UploadPhotosRequest) {}
+}
+
 export class CreatePostSuccess implements Action {
     readonly type = Names.CREATE_POST_SUCCESS;
     constructor(public payload: PostModels.Post) {}
@@ -51,5 +57,6 @@ GetAllPosts |
 GetAllPostsSuccess |  
 GetAllPostsError | 
 CreatePost | 
+UploadPhotos | 
 CreatePostSuccess | 
 CreatePostError;

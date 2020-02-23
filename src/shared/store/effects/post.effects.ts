@@ -46,8 +46,7 @@ export class PostEffects {
           return this.postService.createPost(data.payload)
           .pipe(
             map(
-              (response) => {  
-                debugger;        
+              (response) => {    
                 return new PostActions.CreatePostSuccess(<PostModels.Post>response);
               }
             ),
@@ -58,7 +57,29 @@ export class PostEffects {
           )
         }
       )
-  );  
+  );
+
+  @Effect() 
+    uploadPhotos$ = this.actions$
+    .pipe(
+      ofType<PostActions.UploadPhotos>(PostActions.Names.UPLOAD_PHOTOS),
+      mergeMap(
+        (data) => {           
+          return this.postService.uploadPostPhotos(data.payload)
+          .pipe(
+            map(
+              (response) => {
+                return new PostActions.CreatePostSuccess(<PostModels.Post>response);
+              }
+            ),
+            catchError((error: HttpErrorResponse) => {              
+              let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+              return of(new PostActions.CreatePostError(errorResponse));
+            })
+          )
+        }
+      )
+  ); 
 }
 
 const handleErrors = (error: HttpErrorResponse) => {

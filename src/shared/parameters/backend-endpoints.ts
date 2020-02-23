@@ -17,7 +17,8 @@ export let apiPaths = {
     timeline: {
         post: {
             getAllPosts: server+'post',
-            createPost: server+'post'
+            createPost: server+'post',
+            uploadPhotos: server+'post/image',
         }        
     }
 

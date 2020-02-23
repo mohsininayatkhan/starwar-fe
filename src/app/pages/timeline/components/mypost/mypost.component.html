@@ -3,8 +3,9 @@
         <div class="well well-sm well-social-post">
             <form (ngSubmit)="onSubmit(form)" #form="ngForm">
                 <ul class="list-inline" id='list_PostActions'>
+                    <input name="files" accept="image/*" type="file" multiple #uploader (change)="onUploadPictures($event.target.files)" style="display:none"/>
                     <li class='active'><a href='#'>Update status</a></li>
-                    <li><a href='#'>Add photos/Video</a></li>
+                    <li><a (click)="uploader.click($event)">Add photos/Video</a></li>
                     <li><a href='#'>Create photo album</a></li>
                 </ul>
                 <textarea 

@@ -50,3 +50,7 @@ export interface CreatePostRequest {
     title: string,
     description?: string;
 }
+
+export class UploadPhotosRequest {
+    photos: File[];
+}
