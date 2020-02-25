@@ -38,25 +38,47 @@ export class PostEffects {
   );
 
   @Effect() 
-    createPost$ = this.actions$
-    .pipe(
-      ofType<PostActions.CreatePost>(PostActions.Names.CREATE_POST),
-      mergeMap(
-        (data) => {           
-          return this.postService.createPost(data.payload)
-          .pipe(
-            map(
-              (response) => {    
-                return new PostActions.CreatePostSuccess(<PostModels.Post>response);
-              }
-            ),
-            catchError((error: HttpErrorResponse) => {              
-              let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
-              return of(new PostActions.CreatePostError(errorResponse));
-            })
-          )
-        }
-      )
+  createPost$ = this.actions$
+  .pipe(
+    ofType<PostActions.CreatePost>(PostActions.Names.CREATE_POST),
+    mergeMap(
+      (data) => {           
+        return this.postService.createPost(data.payload)
+        .pipe(
+          map(
+            (response) => {    
+              return new PostActions.CreatePostSuccess(<PostModels.Post>response);
+            }
+          ),
+          catchError((error: HttpErrorResponse) => {              
+            let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+            return of(new PostActions.CreatePostError(errorResponse));
+          })
+        )
+      }
+    )
+  );
+
+  @Effect() 
+  deletePost$ = this.actions$
+  .pipe(
+    ofType<PostActions.DeletePost>(PostActions.Names.DELETE_POST),
+    mergeMap(
+      (data) => {           
+        return this.postService.removePost(data.payload)
+        .pipe(
+          map(
+            (response) => {    
+              return new PostActions.DeletePostSuccess(data.payload);
+            }
+          ),
+          catchError((error: HttpErrorResponse) => {              
+            let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+            return of(new PostActions.DeletePostError(errorResponse));
+          })
+        )
+      }
+    )
   );
 
   @Effect() 

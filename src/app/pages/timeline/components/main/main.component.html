@@ -3,7 +3,7 @@
     <timeline-mypost (createPostRequest)="createPost($event)" (uploadPhotosRequest)="uploadPhotos($event)" *ngIf="isAuthenticated"></timeline-mypost>
 
     <!-- POSTS -->    
-    <timeline-post *ngFor="let post of posts | async" [post]="post"></timeline-post>
+    <timeline-post *ngFor="let post of posts | async" [post]="post" [user]="user" (removePostId)="removePost($event)"></timeline-post>
 
     <div 
         class="timeline-posts" 

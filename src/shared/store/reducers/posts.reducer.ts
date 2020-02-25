@@ -71,7 +71,21 @@ export function postReducer(state: PostState = initialState, action: PostActions
             };
         case PostActions.Names.CREATE_POST_SUCCESS:
             return postAdapter.addOne(action.payload, state);
-        case PostActions.Names.CREATE_POST_ERROR:
+        case PostActions.Names.CREATE_POST_ERROR:        
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            };
+        case PostActions.Names.DELETE_POST:
+            return {
+                ...state,
+                loading: true,
+                error: null
+            };
+        case PostActions.Names.DELETE_POST_SUCCESS:
+            return postAdapter.removeOne(action.payload, state);
+        case PostActions.Names.DELETE_POST_ERROR:
             return {
                 ...state,
                 loading: false,

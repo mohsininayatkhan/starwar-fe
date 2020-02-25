@@ -56,4 +56,23 @@ export class PostService
         };      
         return this.http.post(apiPaths.timeline.post.uploadPhotos, formData, httpOptions);        
     }
+
+    removePost(id)
+    {
+        let token = '';
+        const user = this.auth.getLocalStorageUser();
+        
+        if(user!= null) {
+            token = user.token;
+        }
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type':  'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        };        
+        return this.http.delete(apiPaths.timeline.post.deletePost+'/'+id, httpOptions);
+
+    }
 }

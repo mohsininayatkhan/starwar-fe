@@ -1,7 +1,18 @@
+
 <div class="message-item" id="m9">
     <div class="message-inner">
+        <div class="pull-right">
+            <div *ngIf="post.author.id == user.id" class="dropdown">
+                <button class="btn btn-default dropdown-toggle" type="button" id="{{ post.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">                  
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" attr.aria-labelledby="{{ post.id }}">
+                  <li><a (click)="onPostRemove(post.id)">Remove</a></li>
+                </ul>
+            </div>
+        </div>
         <div class="message-head clearfix">
-            <div class="avatar pull-left"><a href="./index.php?qa=user&qa_1=amiya"><img class="profile-img" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></a></div>
+            <div class="avatar pull-left"><a href="./index.php?qa=user&qa_1=amiya"><img class="profile-img" src="{{ post.author.profile_picture }}"></a></div>
             <div class="user-detail">
                 <h5 class="handle">{{ post.title }}</h5>
                 <div class="post-meta">
@@ -16,11 +27,13 @@
                         </span>
                     </div>
                 </div>
+                
             </div>
         </div>
         <div class="qa-message-content">            
             <timeline-post-item [items]="post.items"></timeline-post-item>
-        </div>
+        </div>     
         
     </div>
 </div>
+

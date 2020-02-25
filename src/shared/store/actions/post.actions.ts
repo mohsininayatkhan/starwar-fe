@@ -10,6 +10,9 @@ export enum Names {
     CREATE_POST_SUCCESS = '[Timeline Page] Create Post Success',
     CREATE_POST_ERROR = '[Timeline Page] Create Post Error',
     RESET_POSTS = '[Timeline Page] Reset Posts',
+    DELETE_POST = '[Timeline Page] Delete Post',
+    DELETE_POST_SUCCESS = '[Timeline Page] Delete Post Scuccess',
+    DELETE_POST_ERROR = '[Timeline Page] Delete Post Error',
 }
 
 export class ResetPosts implements Action {
@@ -51,6 +54,21 @@ export class CreatePostError implements Action {
     constructor(public payload: PostModels.PostErrorResponse) {}
 }
 
+export class DeletePost implements Action {
+    readonly type = Names.DELETE_POST;
+    constructor(public payload: number) {}
+}
+
+export class DeletePostSuccess implements Action {
+    readonly type = Names.DELETE_POST_SUCCESS;
+    constructor(public payload: number) {}
+}
+
+export class DeletePostError implements Action {
+    readonly type = Names.DELETE_POST_ERROR;
+    constructor(public payload: PostModels.PostErrorResponse) {}    
+}
+
 export type PostActionTypes = 
 ResetPosts | 
 GetAllPosts | 
@@ -59,4 +77,7 @@ GetAllPostsError |
 CreatePost | 
 UploadPhotos | 
 CreatePostSuccess | 
-CreatePostError;
+CreatePostError | 
+DeletePost |
+DeletePostError |
+DeletePostSuccess;

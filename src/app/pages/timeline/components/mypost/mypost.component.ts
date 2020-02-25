@@ -11,8 +11,7 @@ import { CreatePostRequest, UploadPhotosRequest } from 'src/shared/models/timeli
 export class MyPostComponent implements OnInit {   
 
     @Output() createPostRequest = new EventEmitter<CreatePostRequest>();
-    @Output() uploadPhotosRequest = new EventEmitter<File[]>(); 
-    
+    @Output() uploadPhotosRequest = new EventEmitter<File[]>();
 
     constructor() {}
 
@@ -23,7 +22,6 @@ export class MyPostComponent implements OnInit {
         const uploadedFiles = Array.from(files);      
         this.uploadPhotosRequest.emit(uploadedFiles);
     }
-
 
     onSubmit(form: NgForm) 
     {       

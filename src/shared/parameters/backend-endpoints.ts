@@ -19,6 +19,7 @@ export let apiPaths = {
             getAllPosts: server+'post',
             createPost: server+'post',
             uploadPhotos: server+'post/image',
+            deletePost: server+'post'
         }        
     }
 

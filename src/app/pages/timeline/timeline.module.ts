@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { MainComponent } from './components/main/main.component';
 import { PostComponent } from './components/post/post.component';
@@ -20,13 +21,15 @@ const routes = [
         MainComponent,
         PostComponent,
         MyPostComponent,
-        ItemComponent,
+        ItemComponent,        
     ],
     imports: [
         FormsModule,
         BrowserModule,
-        InfiniteScrollModule,
-        RouterModule.forChild(routes),
+        InfiniteScrollModule,        
+        NgbModule,
+        RouterModule.forChild(routes),        
+        
     ],
     exports: [
     ]

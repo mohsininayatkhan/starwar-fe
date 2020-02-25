@@ -20,6 +20,7 @@ body{margin-top:20px; background-color: #eeeeee;}
 .well-social-post a:active,
 .well-social-post a:focus {
     text-decoration: none;
+    cursor: pointer;
 }
 
 .well-social-post .list-inline {

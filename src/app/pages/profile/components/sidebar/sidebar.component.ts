@@ -13,10 +13,7 @@ export class SidebarComponent implements OnInit
 
     constructor() {}
 
-    ngOnInit() 
-    {
-        console.log(this.user);
-    }  
+    ngOnInit() {}  
     
     onChangePhoto(files: FileList)
     {      
