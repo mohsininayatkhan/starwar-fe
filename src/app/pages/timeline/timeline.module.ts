@@ -16,6 +16,7 @@ const routes = [
         component: MainComponent
     }
 ];
+
 @NgModule({
     declarations:[        
         MainComponent,
@@ -34,5 +35,6 @@ const routes = [
     exports: [
     ]
 })
-export class TimelineModule {
+export class TimelineModule 
+{
 }

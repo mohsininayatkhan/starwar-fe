@@ -1,0 +1,18 @@
+<div class="row">	
+	<div class="col-md-3">			
+		<div class="circle">			
+			<img class="profile-pic" src="{{ user.profile_picture }}">
+		</div>			
+		<div class="p-image">
+			<a class="change-photo" (click)="uploader.click()"><i class="glyphicon glyphicon-camera"></i></a>
+			<input #uploader class="file-upload" (change)="onChangePhoto($event.target.files)" type="file" accept="image/*"/>			
+		</div>
+	</div>
+
+	<div class="col-md-9">			
+		<div class="profile-head">
+			<h3> {{ user.name }}</h3>
+			<h5>Web Developer and Designer</h5>
+		</div>			
+	</div>
+</div>

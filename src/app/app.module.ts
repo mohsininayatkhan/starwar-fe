@@ -19,6 +19,8 @@ import { AppComponent } from './app.component';
 import { FilmService } from '../shared/services/films.service';
 import { AuthService } from '../shared/services/auth.service';
 import { PostService } from '../shared/services/post.service';
+import { UserService } from '../shared/services/user.service';
+import { ErrorHandlerService } from '../shared/services/error-handler.service';
 
 // Import Store effects and reducer
 import { AuthEffects } from '../shared/store/effects/auth.effects';
@@ -60,7 +62,7 @@ const appRoutes: Routes = [
   schemas: [
     NO_ERRORS_SCHEMA
   ],
-  providers: [FilmService, AuthService, PostService],
+  providers: [FilmService, AuthService, PostService, UserService, ErrorHandlerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

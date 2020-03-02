@@ -17,5 +17,6 @@ import { ProfileModule } from './profile/profile.module';
     exports: [        
     ]
 })
-export class PagesModule {    
+export class PagesModule 
+{    
 }

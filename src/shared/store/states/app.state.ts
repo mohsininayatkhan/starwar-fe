@@ -1,7 +1,8 @@
 import { AuthState } from './auth.state';
 import { PostState } from './post.state';
 
-export interface AppState {
+export interface AppState 
+{
     auth: AuthState;
     posts: PostState
 }

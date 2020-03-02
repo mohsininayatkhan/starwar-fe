@@ -1,20 +1,26 @@
-export class RegiserRequest {    
+import * as GeneralModels from 'src/shared/models/general.models';
+
+export class RegiserRequest 
+{
     name : string;
     email: string;
     password: string;
     password_confirmation: string;
 }
 
-export class LoginRequest {    
+export class LoginRequest 
+{
     email: string;
     password: string;
 }
 
-export class UploadPhotoRequest {
+export class UploadPhotoRequest 
+{
     photo: File
 }
 
-export interface AuthSuccessResponse {
+export interface AuthSuccessResponse 
+{
     user: {
         id: number,
         name: string,
@@ -27,11 +33,10 @@ export interface AuthSuccessResponse {
     expires_at: string
 }
 
-export interface AuthErrorResponse {
-    message: string,
-    errors?: any[]
-}
+export class AuthErrorResponse extends GeneralModels.ErrorResponse 
+{}
 
-export interface uploadPhotoResponse {
+export interface uploadPhotoResponse 
+{
     url: string
 }

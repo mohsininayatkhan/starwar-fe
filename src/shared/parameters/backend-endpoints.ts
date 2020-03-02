@@ -19,8 +19,12 @@ export let apiPaths = {
             getAllPosts: server+'post',
             createPost: server+'post',
             uploadPhotos: server+'post/image',
-            deletePost: server+'post'
+            deletePost: server+'post/{id}'
         }        
+    },
+    user: {
+        post: {
+            getAllPosts: server+'post?by={id}'
+        }
     }
-
 };

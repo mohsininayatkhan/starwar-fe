@@ -6,8 +6,8 @@ import { Item } from 'src/shared/models/timeline/post.models';
     templateUrl: './item.component.html',
     styleUrls: ['./item.component.css']
 })
-export class ItemComponent implements OnInit {
-
+export class ItemComponent implements OnInit 
+{
     @Input() items: Item[];
 
     constructor() {}

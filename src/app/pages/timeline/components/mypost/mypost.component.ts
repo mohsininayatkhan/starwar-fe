@@ -8,7 +8,8 @@ import { CreatePostRequest, UploadPhotosRequest } from 'src/shared/models/timeli
     templateUrl: './mypost.component.html',
     styleUrls: ['./mypost.component.css']
 })
-export class MyPostComponent implements OnInit {   
+export class MyPostComponent implements OnInit 
+{   
 
     @Output() createPostRequest = new EventEmitter<CreatePostRequest>();
     @Output() uploadPhotosRequest = new EventEmitter<File[]>();
@@ -25,11 +26,11 @@ export class MyPostComponent implements OnInit {
 
     onSubmit(form: NgForm) 
     {       
-        if(!form.valid) {
+        if (!form.valid) {
             return;
         }        
         
-        var post: CreatePostRequest  = {
+        var post: CreatePostRequest = {
             title: form.value.mypost
         }
         

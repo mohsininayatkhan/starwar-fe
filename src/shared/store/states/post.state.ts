@@ -1,7 +1,8 @@
 import { EntityState } from '@ngrx/entity';
 import { Post, PostErrorResponse} from 'src/shared/models/timeline/post.models';
 
-export interface PostState extends EntityState<Post> {
+export interface PostState extends EntityState<Post> 
+{
     selectedPostId: number,
     error: PostErrorResponse;
     loading: boolean;
@@ -11,15 +12,17 @@ export interface PostState extends EntityState<Post> {
     next_page_url?: string;
     path: string;
     per_page: string;
-    prev_page_url?: null;
+    prev_page_url?: string;
     to: string;
 }
 
-export function selectedPostId(p: Post): number {
+export function selectedPostId(p: Post): number 
+{
     return p.id;
 }
 
-export function sortById(a: Post, b: Post): number {
+export function sortById(a: Post, b: Post): number 
+{
     var result = a.id - b.id;
     return -result;
 }

@@ -4,15 +4,17 @@ import { of } from 'rxjs';
 import { catchError, mergeMap, map, tap } from 'rxjs/operators';
 import * as PostActions from 'src/shared/store/actions/post.actions';
 import { PostService } from 'src/shared/services/post.service';
+import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 import * as PostModels from  'src/shared/models/timeline/post.models';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Injectable()
-export class PostEffects {
+export class PostEffects 
+{
   constructor(
     private actions$: Actions,
-    private postService: PostService
+    private postService: PostService,
+    private errorHandler: ErrorHandlerService
   ) {}
 
   @Effect() 
@@ -29,7 +31,7 @@ export class PostEffects {
             }
           ),
           catchError((error: HttpErrorResponse) => {              
-            let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+            const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
             return of(new PostActions.GetAllPostsError(errorResponse));
           })
         )
@@ -51,7 +53,7 @@ export class PostEffects {
             }
           ),
           catchError((error: HttpErrorResponse) => {              
-            let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+            const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
             return of(new PostActions.CreatePostError(errorResponse));
           })
         )
@@ -73,7 +75,7 @@ export class PostEffects {
             }
           ),
           catchError((error: HttpErrorResponse) => {              
-            let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+            const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
             return of(new PostActions.DeletePostError(errorResponse));
           })
         )
@@ -95,7 +97,7 @@ export class PostEffects {
               }
             ),
             catchError((error: HttpErrorResponse) => {              
-              let errorResponse: PostModels.PostErrorResponse = handleErrors(error);
+              const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
               return of(new PostActions.CreatePostError(errorResponse));
             })
           )
@@ -103,36 +105,3 @@ export class PostEffects {
       )
   ); 
 }
-
-const handleErrors = (error: HttpErrorResponse) => {
-    let errorResponse: PostModels.PostErrorResponse;
-  
-    if (typeof error.error.message === 'undefined') {
-      errorResponse = {
-        message : 'Something went wrong.',
-        errors: null
-      };               
-    } else if(typeof error.error.errors === 'undefined') {
-      errorResponse = {
-        message: error.error.message,
-        errors: null
-      }
-    } else {
-      const errorDetail = error.error.errors;
-      const errorFields = Object.keys(errorDetail);
-      let errorsList = [];
-  
-      errorFields.forEach(element => {
-        const fieldErrors = errorDetail[element];
-        fieldErrors.forEach(error => {
-          errorsList.push(error);
-        });
-      });
-      
-      errorResponse = {
-        message: error.error.message,
-        errors: errorsList
-      }
-    }
-    return errorResponse;    
-  };

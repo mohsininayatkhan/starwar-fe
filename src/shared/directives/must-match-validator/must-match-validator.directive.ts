@@ -11,12 +11,14 @@ import { Directive, Input } from '@angular/core';
         }
     ]
 })
-export class MustMatchValidatorDirective implements Validator {
+export class MustMatchValidatorDirective implements Validator 
+{
     @Input() mustMatch: string;
-    validate(control: AbstractControl): {[key: string]: any} | null {
+    validate(control: AbstractControl): {[key: string]: any} | null 
+    {
         const controlMustMatch = control.parent.get(this.mustMatch);
 
-        if(controlMustMatch && controlMustMatch.value !== control.value) {
+        if (controlMustMatch && controlMustMatch.value !== control.value) {
             return { 'notEqual':true };
         }
         return null;

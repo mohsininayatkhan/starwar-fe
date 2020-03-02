@@ -20,7 +20,7 @@ export class PostService
         let token = '';
         const user = this.auth.getLocalStorageUser();
         
-        if(user!= null) {
+        if (user!= null) {
             token = user.token;
         }
 
@@ -35,11 +35,10 @@ export class PostService
 
     uploadPostPhotos(request: UploadPhotosRequest)
     {
-        //debugger;
         let token = '';
         const user = this.auth.getLocalStorageUser();
         
-        if(user!= null) {
+        if (user!= null) {
             token = user.token;
         }
 
@@ -57,7 +56,7 @@ export class PostService
         return this.http.post(apiPaths.timeline.post.uploadPhotos, formData, httpOptions);        
     }
 
-    removePost(id)
+    removePost(id: number)
     {
         let token = '';
         const user = this.auth.getLocalStorageUser();
@@ -72,7 +71,6 @@ export class PostService
                 'Authorization': 'Bearer ' + token
             })
         };        
-        return this.http.delete(apiPaths.timeline.post.deletePost+'/'+id, httpOptions);
-
+        return this.http.delete(apiPaths.timeline.post.deletePost.replace('{id}', id.toString()), httpOptions);
     }
 }

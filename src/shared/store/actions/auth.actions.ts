@@ -15,49 +15,54 @@ export enum Names {
     UPLOAD_USER_PROFILE_PHOTO_ERROR = '[User Profile Page] Upload Photo Error',
 }
 
-export class Register implements Action {
+export class Register implements Action 
+{
     readonly type = Names.REGISTER;
-
     constructor(public payload: AuthModels.RegiserRequest) {}
 }
 
-export class Login implements Action {    
+export class Login implements Action 
+{    
     readonly type = Names.LOGIN;
-
     constructor(public payload: AuthModels.LoginRequest) {}
 }
 
-export class AuthError implements Action {
+export class AuthError implements Action 
+{
     readonly type = Names.AUTH_ERROR;
-
     constructor(public payload: AuthModels.AuthErrorResponse) {}
 }
 
-export class AuthSuccess implements Action {
+export class AuthSuccess implements Action 
+{
     readonly type = Names.AUTH_SUCCESS;
-
     constructor(public payload: AuthModels.AuthSuccessResponse) {}
 }
 
-export class Logout implements Action {
+export class Logout implements Action 
+{
     readonly type = Names.LOGOUT;
 }
 
-export class AutoLogin implements Action {
+export class AutoLogin implements Action 
+{
     readonly type = Names.AUTO_LOGIN;
 }
 
-export class UploadUserProfilePhoto implements Action {
+export class UploadUserProfilePhoto implements Action 
+{
     readonly type = Names.UPLOAD_USER_PROFILE_PHOTO;    
     constructor(public payload: AuthModels.UploadPhotoRequest) {}
 }
 
-export class UploadUserProfilePhotoSuccess implements Action {
+export class UploadUserProfilePhotoSuccess implements Action 
+{
     readonly type = Names.UPLOAD_USER_PROFILE_PHOTO_SUCCESS;
     constructor(public payload: AuthModels.uploadPhotoResponse) {}
 }
 
-export class UploadUserProfilePhotoError implements Action {
+export class UploadUserProfilePhotoError implements Action 
+{
     readonly type = Names.UPLOAD_USER_PROFILE_PHOTO_ERROR;
     constructor(public payload: AuthModels.AuthErrorResponse) {}
 }

@@ -13,6 +13,7 @@ const routes = [
         component: MainComponent
     }
 ];
+
 @NgModule({
     declarations:[        
         MainComponent,
@@ -26,5 +27,6 @@ const routes = [
     exports: [
     ]
 })
-export class RegisterModule {
+export class RegisterModule 
+{
 }

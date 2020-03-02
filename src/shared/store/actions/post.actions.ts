@@ -15,56 +15,67 @@ export enum Names {
     DELETE_POST_ERROR = '[Timeline Page] Delete Post Error',
 }
 
-export class ResetPosts implements Action {
+export class ResetPosts implements Action 
+{
     readonly type = Names.RESET_POSTS;    
 }
 
-export class GetAllPosts implements Action {
+export class GetAllPosts implements Action 
+{
     readonly type = Names.GET_ALL_POSTS;
     constructor(public payload: string) {}
 }
 
-export class GetAllPostsSuccess implements Action {
+export class GetAllPostsSuccess implements Action 
+{
     readonly type = Names.GET_ALL_POSTS_SUCCESS;
     constructor(public payload: PostModels.PostSuccessResponse) {}
 }
 
-export class GetAllPostsError implements Action {
+export class GetAllPostsError implements Action 
+{
     readonly type = Names.GET_ALL_POSTS_ERROR;
     constructor(public payload: PostModels.PostErrorResponse) {}
 }
 
-export class CreatePost implements Action {
+export class CreatePost implements Action 
+{
     readonly type = Names.CREATE_POST;
     constructor(public payload: PostModels.CreatePostRequest) {}
 }
 
-export class UploadPhotos implements Action {
+export class UploadPhotos implements Action 
+{
     readonly type = Names.UPLOAD_PHOTOS;
     constructor(public payload: PostModels.UploadPhotosRequest) {}
 }
 
-export class CreatePostSuccess implements Action {
+export class CreatePostSuccess implements Action 
+{
     readonly type = Names.CREATE_POST_SUCCESS;
     constructor(public payload: PostModels.Post) {}
 }
 
-export class CreatePostError implements Action {
+export class CreatePostError implements Action 
+{
     readonly type = Names.CREATE_POST_ERROR;
     constructor(public payload: PostModels.PostErrorResponse) {}
 }
 
-export class DeletePost implements Action {
+export class DeletePost implements Action 
+{
     readonly type = Names.DELETE_POST;
     constructor(public payload: number) {}
 }
 
-export class DeletePostSuccess implements Action {
+export class DeletePostSuccess implements Action 
+{
     readonly type = Names.DELETE_POST_SUCCESS;
     constructor(public payload: number) {}
 }
 
-export class DeletePostError implements Action {
+export class DeletePostError implements Action 
+{
     readonly type = Names.DELETE_POST_ERROR;
     constructor(public payload: PostModels.PostErrorResponse) {}    
 }

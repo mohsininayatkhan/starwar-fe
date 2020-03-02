@@ -1,4 +1,7 @@
-export class Post {    
+import * as GeneralModels from 'src/shared/models/general.models';
+
+export class Post
+{    
     id : number;
     title: string;
     description?: string;
@@ -9,7 +12,8 @@ export class Post {
     items: Item[];
 }
 
-export class Author {    
+export class Author
+{
     id: number;
     name: string;
     email: string;
@@ -19,7 +23,8 @@ export class Author {
     posts_count: number;
 }
 
-export class Item {    
+export class Item
+{
     id: number;
     title?: string;
     source: string;
@@ -29,7 +34,8 @@ export class Item {
     updated_at: string;
 }
 
-export class PostSuccessResponse {
+export class PostSuccessResponse 
+{
     data: Post[];
     current_page: string;
     first_page_url: string;
@@ -37,20 +43,20 @@ export class PostSuccessResponse {
     next_page_url?: string;
     path: string;
     per_page: string;
-    prev_page_url?: null;
+    prev_page_url?: string;
     to: string;
 }
 
-export interface PostErrorResponse {
-    message: string,
-    errors?: any[]
-}
+export class PostErrorResponse extends GeneralModels.ErrorResponse 
+{}
 
-export interface CreatePostRequest {
+export interface CreatePostRequest 
+{
     title: string,
     description?: string;
 }
 
-export class UploadPhotosRequest {
+export class UploadPhotosRequest 
+{
     photos: File[];
 }

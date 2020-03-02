@@ -28,7 +28,7 @@ export class MainComponent implements OnInit, OnDestroy{
     constructor(
         private store: Store<AppState>, 
         private authService: AuthService, 
-        private toastr: ToastrService
+        private toastr: ToastrService        
     ) { }
 
     ngOnInit() { 
@@ -50,9 +50,9 @@ export class MainComponent implements OnInit, OnDestroy{
         this.store.select('posts').subscribe((postState=> {   
             
             /* error handling */
-            if(postState.error!==null) {
+            if (postState.error!==null) {
                 this.postError = postState.error; 
-                if(this.postError.errors!==null) {
+                if (this.postError.errors!==null) {
                     this.postError.errors.forEach(element => {                        
                         this.toastr.error(this.postError.message, element);
                     });
@@ -82,7 +82,7 @@ export class MainComponent implements OnInit, OnDestroy{
         this.store.pipe(select(getNextPageUrl))
         .pipe(take(1))
         .subscribe((url) => {
-            if(url!=null) {                
+            if (url!=null) {                
                 this.store.dispatch(new GetAllPosts(url));      
             }
         });
