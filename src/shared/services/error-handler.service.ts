@@ -12,7 +12,7 @@ export class ErrorHandlerService
     {
         let errorResponse: PostModels.PostErrorResponse;
       
-        if (typeof error.error.message === 'undefined') {
+        if ((typeof error.error.message === 'undefined') || error.error.message == '') {
           errorResponse = {
             message : 'Something went wrong.',
             errors: null

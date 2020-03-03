@@ -7,7 +7,7 @@ import { MainComponent } from './components/main/main.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ContentComponent } from './components/content/content.component';
 import { AuthGuardService } from 'src/shared/services/auth-guard.service';
-import { PostComponent } from './components/post/post.component';
+import { PostsComponent } from './components/posts/posts.component';
 import { HeaderComponent } from './components/header/header';
 
 const routes = [
@@ -17,8 +17,8 @@ const routes = [
         canActivate: [AuthGuardService],
         children: [
             { 
-                'path': 'post', 
-                component: PostComponent
+                'path': 'posts', 
+                component: PostsComponent
             }
         ]
     }
@@ -29,7 +29,7 @@ const routes = [
         MainComponent,
         SidebarComponent,
         ContentComponent,
-        PostComponent,
+        PostsComponent,
         HeaderComponent,
     ],
     imports: [

@@ -41,8 +41,7 @@ export class MainComponent implements OnInit, OnDestroy{
         this.posts = this.store.pipe(select(selectAllPosts));
     }
 
-    ngOnDestroy() {
-        console.log('onDestroy'); 
+    ngOnDestroy() {        
         this.store.dispatch(new ResetPosts());       
     }
 
