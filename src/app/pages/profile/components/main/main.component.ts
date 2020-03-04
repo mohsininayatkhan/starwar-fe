@@ -5,8 +5,12 @@ import { UploadUserProfilePhoto } from 'src/shared/store/actions/auth.actions';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/shared/services/auth.service';
+import { UserService } from 'src/shared/services/user.service';
 import { User } from 'src/shared/models/auth/user.model';
+import * as ProfileModels  from 'src/shared/models/profile/profile.models';
 import * as PostModels from  'src/shared/models/timeline/post.models';
+import { ActivatedRoute, Params } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'login-main',
@@ -15,17 +19,37 @@ import * as PostModels from  'src/shared/models/timeline/post.models';
 })
 export class MainComponent implements OnInit
 {   
-    authUser: User = null;    
+    authUser: User = null;
+    private userId: number;
+    public user: ProfileModels.Profile;
+    
 
     //@ViewChild('postTabLink', {static: true}) postTabLink: ElementRef;    
 
-    constructor(private store: Store<AppState>, 
+    constructor(
+        private store: Store<AppState>, 
         private authService: AuthService, 
-        private toastr: ToastrService
-    ) {}
+        private userService: UserService, 
+        private toastr: ToastrService,
+        private route: ActivatedRoute,
+    ) 
+    {
+        //this.user = {};
+    }
 
     ngOnInit() 
     {
+        
+        this.route.params.subscribe((params: Params) => {
+            this.userId = +params['id'];            
+        });
+
+        this.userService.getProfile(this.userId)
+        .subscribe(user => {
+            this.user = <ProfileModels.Profile>user;                
+        });
+        this.userService.setUserId(this.userId);
+
         this.authService.getStoreUser().subscribe(user => {
             this.authUser = user;            
         });         

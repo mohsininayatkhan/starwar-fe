@@ -4,11 +4,11 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UserPostModule } from 'src/shared/components/user-post/user-post.module';
 
 import { MainComponent } from './components/main/main.component';
-import { PostComponent } from './components/post/post.component';
 import { MyPostComponent } from './components/mypost/mypost.component';
-import { ItemComponent } from './components/item/item.component';
+
 
 const routes = [
     {
@@ -19,18 +19,16 @@ const routes = [
 
 @NgModule({
     declarations:[        
-        MainComponent,
-        PostComponent,
-        MyPostComponent,
-        ItemComponent,        
+        MainComponent,        
+        MyPostComponent,      
     ],
     imports: [
         FormsModule,
         BrowserModule,
         InfiniteScrollModule,        
         NgbModule,
-        RouterModule.forChild(routes),        
-        
+        RouterModule.forChild(routes), 
+        UserPostModule        
     ],
     exports: [
     ]

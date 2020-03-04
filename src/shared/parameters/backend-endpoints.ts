@@ -24,7 +24,11 @@ export let apiPaths = {
     },
     user: {
         post: {
-            getAllPosts: server+'post?by={id}'
+            getAllPosts: server+'post?by={id}',
+            getuserProfile: server+'user/{id}'
+        },
+        profile: {
+            get: server+'user/{id}'
         }
     }
 };

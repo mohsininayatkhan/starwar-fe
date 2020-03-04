@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { User } from 'src/shared/models/auth/user.model';
+import * as ProfileModels  from 'src/shared/models/profile/profile.models';
 
 @Component({
     selector: 'profile-sidebar',
@@ -9,7 +9,7 @@ import { User } from 'src/shared/models/auth/user.model';
 export class SidebarComponent implements OnInit 
 {
     @Output() uploadUserPhoto = new EventEmitter<File>(); 
-    @Input() user: User;
+    @Input() user: ProfileModels.Profile;
 
     constructor() {}
 

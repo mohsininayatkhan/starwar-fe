@@ -1,1 +1,9 @@
-posts component
+<timeline-post *ngFor="let post of posts | async" [user]="user" [post]="post" (uploadPhotosRequest)="uploadPhotos($event)"></timeline-post>
+
+<div 
+    class="timeline-posts" 
+    infiniteScroll 
+    [infiniteScrollDistance]="2" 
+    infiniteScrollThrottle="50" 
+    (scrolled)="onScroll()"
+></div>

@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { UserPostModule } from 'src/shared/components/user-post/user-post.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { MainComponent } from './components/main/main.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -12,7 +14,7 @@ import { HeaderComponent } from './components/header/header';
 
 const routes = [
     {
-        path: 'profile',
+        path: 'profile/:id',
         component: MainComponent,
         canActivate: [AuthGuardService],
         children: [
@@ -30,12 +32,14 @@ const routes = [
         SidebarComponent,
         ContentComponent,
         PostsComponent,
-        HeaderComponent,
+        HeaderComponent        
     ],
     imports: [
         FormsModule,
-        BrowserModule,
+        BrowserModule, 
+        UserPostModule,        
         RouterModule.forChild(routes),
+        InfiniteScrollModule,
     ],
     exports: [
     ],

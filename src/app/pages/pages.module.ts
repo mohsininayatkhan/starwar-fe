@@ -5,8 +5,10 @@ import { RegisterModule } from './register/register.module';
 import { TimelineModule } from './timeline/timeline.module';
 import { ProfileModule } from './profile/profile.module';
 
+
 @NgModule({
-    declarations: [],
+    declarations: [
+    ],
     imports: [
         LandingModule,
         LoginModule,

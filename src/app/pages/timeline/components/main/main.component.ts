@@ -5,8 +5,8 @@ import { AppState } from 'src/shared/store/states/app.state';
 import { Post, CreatePostRequest, PostErrorResponse, UploadPhotosRequest  } from  'src/shared/models/timeline/post.models';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/shared/services/auth.service';
-import { selectAllPosts, selectPostEntities, getNextPageUrl } from 'src/shared/store/selectors/post.selectors';
-import { Observable, Subscription } from 'rxjs';
+import { selectAllPosts, getNextPageUrl } from 'src/shared/store/selectors/post.selectors';
+import { Observable } from 'rxjs';
 import { apiPaths } from 'src/shared/parameters/backend-endpoints';
 import { take } from 'rxjs/operators';
 
@@ -16,14 +16,11 @@ import { take } from 'rxjs/operators';
     styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit, OnDestroy{
-  //private postError: PostModels.PostErrorResponse;    
   
-    posts: Observable<Post[]>;
-    
-    isAuthenticated = false;
-    user = null;
-    private postError: PostErrorResponse;
-    
+    private posts: Observable<Post[]>;    
+    private isAuthenticated = false;
+    private user = null;
+    private postError: PostErrorResponse;    
 
     constructor(
         private store: Store<AppState>, 
