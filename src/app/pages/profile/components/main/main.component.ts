@@ -21,8 +21,8 @@ export class MainComponent implements OnInit
 {   
     authUser: User = null;
     private userId: number;
-    public user: ProfileModels.Profile;
-    
+    //public user: BehaviorSubject<ProfileModels.Profile>;    
+    private user: ProfileModels.Profile;    
 
     //@ViewChild('postTabLink', {static: true}) postTabLink: ElementRef;    
 
@@ -32,24 +32,20 @@ export class MainComponent implements OnInit
         private userService: UserService, 
         private toastr: ToastrService,
         private route: ActivatedRoute,
-    ) 
-    {
-        //this.user = {};
-    }
+    ) {}
 
     ngOnInit() 
-    {
-        
+    {        
         this.route.params.subscribe((params: Params) => {
-            this.userId = +params['id'];            
+            this.userId = +params['id'];
+            this.userService.getProfile(this.userId)
+            .subscribe(user => {
+                const profile = <ProfileModels.Profile>user; 
+                this.userService.setUser(profile);
+                this.user = profile;
+            });
         });
-
-        this.userService.getProfile(this.userId)
-        .subscribe(user => {
-            this.user = <ProfileModels.Profile>user;                
-        });
-        this.userService.setUserId(this.userId);
-
+        
         this.authService.getStoreUser().subscribe(user => {
             this.authUser = user;            
         });         

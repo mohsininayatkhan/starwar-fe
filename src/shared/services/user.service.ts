@@ -3,24 +3,25 @@ import { apiPaths } from '../parameters/backend-endpoints';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/shared/services/auth.service';
 import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
-import { HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import * as PostModels from  'src/shared/models/timeline/post.models';
 import * as ProfileModels from  'src/shared/models/profile/profile.models';
-import { of, throwError } from 'rxjs';
-import { User } from '../models/auth/user.model';
-
+import { throwError } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
  
 @Injectable()
 export class UserService
 {     
-    private userId: number;
+    
+    //public user: BehaviorSubject<ProfileModels.Profile>;
+    public user: BehaviorSubject<ProfileModels.Profile>;
     
     constructor(
         private http: HttpClient, 
         private errorHandler: ErrorHandlerService,
         private auth: AuthService
-    ) {}
+    ) {
+        this.user = new BehaviorSubject<ProfileModels.Profile>(null);
+    }
 
     getPosts(url: string)
     {     
@@ -34,22 +35,8 @@ export class UserService
     }  
     
     getProfile(id: number)
-    {
-        let token = '';
-        const user = this.auth.getLocalStorageUser();
-        
-        if (user!= null) {
-            token = user.token;
-        }
-
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type':  'application/json',
-                'Authorization': 'Bearer ' + token
-            })
-        };        
-
-        return this.http.get(apiPaths.user.profile.get.replace('{id}', id.toString()), httpOptions)
+    {        
+        return this.http.get(apiPaths.user.profile.get.replace('{id}', id.toString()))
         .pipe(
             catchError(error => {
                 const errorResponse: ProfileModels.ProfileErrorResponse = this.errorHandler.getPostErrors(error);
@@ -58,13 +45,13 @@ export class UserService
         );
     }
 
-    setUserId(userId)
+    getUser()
     {
-        this.userId = userId;
+        return this.user;
     }
-
-    getUserId()
+    
+    setUser(user: ProfileModels.Profile)
     {
-        return this.userId;
+        this.user.next(user);
     }
 }

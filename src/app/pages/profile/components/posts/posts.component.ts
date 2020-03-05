@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as PostModels from  'src/shared/models/timeline/post.models';
+import * as ProfileModels  from 'src/shared/models/profile/profile.models';
 import { AuthService } from 'src/shared/services/auth.service';
 import { UserService } from 'src/shared/services/user.service';
 import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
@@ -18,8 +19,9 @@ export class PostsComponent implements OnInit
     private postResponse: PostModels.PostSuccessResponse;
     
     private posts: BehaviorSubject<PostModels.Post[]>;
-    private user = null;    
+    private authUser = null;    
     private isAuthenticated = false;
+    private userProfile: ProfileModels.Profile;
 
     constructor(        
         private userService: UserService,
@@ -28,16 +30,24 @@ export class PostsComponent implements OnInit
         private errorHandler: ErrorHandlerService) 
     {
         this.posts = new BehaviorSubject<PostModels.Post[]>([]);
+        this.userProfile = null;
     }
 
     ngOnInit()
     {
-        const userId = this.userService.getUserId();        
-        this.getUserPosts(apiPaths.user.post.getAllPosts.replace('{id}', userId.toString()));
-        this.isAuthenticated = this.authService.isAuthenticated();
-        this.authService.getStoreUser().subscribe(user => {
-            this.user = user;            
-        });
+        this.userService.getUser().subscribe(profile => {
+            this.userProfile = profile;
+            if (this.userProfile != null) {
+                this.getUserPosts(apiPaths.user.post.getAllPosts.replace('{id}', this.userProfile.id.toString()));
+                this.isAuthenticated = this.authService.isAuthenticated();
+
+                if (this.isAuthenticated) {
+                    this.authService.getStoreUser().subscribe(user => {
+                        this.authUser = user;
+                    });
+                }
+            }
+        });     
     }    
 
     onScroll()
