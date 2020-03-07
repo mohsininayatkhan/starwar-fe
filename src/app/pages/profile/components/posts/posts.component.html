@@ -1,4 +1,4 @@
-<timeline-post *ngFor="let post of posts | async" [user]="authUser" [post]="post" (uploadPhotosRequest)="uploadPhotos($event)"></timeline-post>
+<timeline-post *ngFor="let post of posts | async" [user]="authUser" [post]="post" (removePostId)="removePost($event)" (uploadPhotosRequest)="uploadPhotos($event)"></timeline-post>
 
 <div 
     class="timeline-posts" 
@@ -7,3 +7,4 @@
     infiniteScrollThrottle="50" 
     (scrolled)="onScroll()"
 ></div>
+

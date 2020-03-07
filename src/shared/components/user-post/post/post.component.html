@@ -21,10 +21,10 @@
                     <div class="asker-meta">
                         <span class="qa-message-what"></span>
                         <span class="qa-message-when">
-                            <span class="qa-message-when-data">{{ post.created_at }}</span>
+                            <span class="qa-message-when-data">{{ post.created_at | timeAgo }}</span>
                         </span>
                         <span class="qa-message-who">
-                            <span class="qa-message-who-pad">by </span>
+                            <span class="qa-message-who-pad"> by </span>
                             <span class="qa-message-who-data"><a [routerLink]="['/','profile', post.author.id, 'posts']">{{ post.author.name }}</a></span>
                         </span>
                     </div>

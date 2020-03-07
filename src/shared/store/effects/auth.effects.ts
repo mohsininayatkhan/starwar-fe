@@ -9,16 +9,19 @@ import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Injectable()
 export class AuthEffects 
 {
 
-  constructor(
+  constructor
+  (
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private spinner: NgxSpinnerService
   ) {}
   
   @Effect() 
@@ -26,16 +29,19 @@ export class AuthEffects
   .pipe(
     ofType<AuthActions.Register>(AuthActions.Names.REGISTER),
     mergeMap(
-      (data) => {          
+      (data) => { 
+        this.spinner.show();       
         return this.authService.register(data.payload)
         .pipe(
           map(
             (response) => { 
               this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
+              this.spinner.hide(); 
               return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
             }
           ),
-          catchError((error: HttpErrorResponse) => {              
+          catchError((error: HttpErrorResponse) => { 
+            this.spinner.hide();              
             const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
             return of(new AuthActions.AuthError(errorResponse));
           })
@@ -49,16 +55,19 @@ export class AuthEffects
   .pipe(
     ofType<AuthActions.Login>(AuthActions.Names.LOGIN),
     mergeMap(
-      (data) => {       
+      (data) => { 
+        this.spinner.show();       
         return this.authService.login(data.payload)
         .pipe(
           map(
             (response) => {  
+              this.spinner.hide(); 
               this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
               return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
             }
           ),
-          catchError((error: HttpErrorResponse) => {   
+          catchError((error: HttpErrorResponse) => { 
+            this.spinner.hide();   
             const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
             return of(new AuthActions.AuthError(errorResponse));
           })
@@ -72,16 +81,19 @@ export class AuthEffects
     .pipe(
       ofType<AuthActions.Logout>(AuthActions.Names.LOGOUT),
       mergeMap(
-        (data) => {       
+        (data) => {  
+          this.spinner.show();      
           return this.authService.logout()
           .pipe(
             map(
               (response) => {  
+                this.spinner.hide(); 
                 this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
                 return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
               }
             ),
-            catchError((error: HttpErrorResponse) => {              
+            catchError((error: HttpErrorResponse) => {  
+              this.spinner.hide();             
               const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
               return of(new AuthActions.AuthError(errorResponse));            
             })
@@ -95,7 +107,8 @@ export class AuthEffects
     .pipe(
       ofType<AuthActions.UploadUserProfilePhoto>(AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO),
       mergeMap(
-        (data) => {       
+        (data) => { 
+          this.spinner.show();   
           return this.authService.uploadPhoto(data.payload)
           .pipe(
             map(

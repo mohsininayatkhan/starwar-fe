@@ -28,7 +28,8 @@ export class MainComponent implements OnInit, OnDestroy{
         private toastr: ToastrService        
     ) { }
 
-    ngOnInit() { 
+    ngOnInit() 
+    { 
         this.errorHandling();
         this.isAuthenticated = this.authService.isAuthenticated();
         this.authService.getStoreUser().subscribe(user => {
@@ -38,11 +39,13 @@ export class MainComponent implements OnInit, OnDestroy{
         this.posts = this.store.pipe(select(selectAllPosts));
     }
 
-    ngOnDestroy() {        
+    ngOnDestroy() 
+    {
         this.store.dispatch(new ResetPosts());       
     }
 
-    errorHandling() {
+    errorHandling() 
+    {
         this.store.select('posts').subscribe((postState=> {   
             
             /* error handling */

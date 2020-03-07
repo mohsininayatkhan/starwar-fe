@@ -5,6 +5,8 @@ export class Profile
     id : number;
     name: string;
     email: string;
+    gender?: string;
+    profession?: string;
     email_verified_at?: number;
     profile_picture?: string;
     created_at: string;

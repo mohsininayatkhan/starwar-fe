@@ -36,6 +36,7 @@ export class MainComponent implements OnInit
 
     ngOnInit() 
     {        
+        //console.log('MAIN');
         this.route.params.subscribe((params: Params) => {
             this.userId = +params['id'];
             this.userService.getProfile(this.userId)
@@ -73,5 +74,5 @@ export class MainComponent implements OnInit
                 this.toastr.error(errorResponse.message, element);
             });
         }
-    }
+    }    
 }

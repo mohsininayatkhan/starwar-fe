@@ -8,20 +8,9 @@ import * as ProfileModels  from 'src/shared/models/profile/profile.models';
 })
 export class SidebarComponent implements OnInit 
 {
-    @Output() uploadUserPhoto = new EventEmitter<File>(); 
     @Input() user: ProfileModels.Profile;
-
+    
     constructor() {}
 
-    ngOnInit() {}  
-    
-    onChangePhoto(files: FileList)
-    {      
-        this.uploadUserPhoto.emit(files.item(0));
-    }
-
-    getProfilePhotoUrl()
-    {
-        return "url('"+this.user.profile_picture+"')";
-    }
+    ngOnInit() {}
 }
