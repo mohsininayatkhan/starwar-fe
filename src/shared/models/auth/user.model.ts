@@ -6,6 +6,8 @@ export class User {
         public token: string,
         public _tokenExpiryDate: Date,
         public profile_picture?: string,
+        public gender?: string, 
+        public profession?: string
     ) {}   
     
     getToken() {

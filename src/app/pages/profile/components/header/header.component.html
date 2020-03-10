@@ -1,7 +1,7 @@
 <div class="row">	
 	<div class="col-md-3">			
 		<div class="circle">			
-			<img *ngIf="user!=null" class="profile-pic" src="{{ user.profile_picture }}">
+			<img *ngIf="user!=null" class="profile-pic" src="{{ user.profile_picture }}">			
 		</div>			
 		<div *ngIf="authUser!=null && user!=null" class="p-image">
 			<a *ngIf="authUser.id == user.id" class="change-photo" (click)="uploader.click()"><i class="glyphicon glyphicon-camera"></i></a>

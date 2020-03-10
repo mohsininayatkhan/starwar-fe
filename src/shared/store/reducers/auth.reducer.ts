@@ -29,7 +29,7 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
                 user: null,
                 error: action.payload
             };
-        case AuthActions.Names.AUTH_SUCCESS:             
+        case AuthActions.Names.AUTH_SUCCESS:         
             const user = new User(
                 action.payload.user.id,                 
                 action.payload.user.email,
@@ -37,6 +37,8 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
                 action.payload.access_token,
                 new Date(action.payload.expires_at),
                 action.payload.user.profile_picture,
+                action.payload.user.gender,
+                action.payload.user.profession
             );
             return {
                 ...state,
@@ -62,15 +64,43 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
                 stateUser.token,
                 stateUser._tokenExpiryDate,
                 action.payload.url,
+                stateUser.gender,
+                stateUser.profession
             );
             
             return {
                 ...state,
                 user: updatedUser
-            }
-            return state;
+            }            
         case AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO_ERROR:
-            return state;            
+            return state;
+        case AuthActions.Names.UPDATE_USER_PROFILE:
+            return state;
+        case AuthActions.Names.UPDATE_USER_PROFILE_SUCCESS:           
+            const stateProfile = {
+                ...state.user
+            }
+            const updatedProfile = new User(
+                stateProfile.id,                 
+                stateProfile.email,
+                action.payload.name, 
+                stateProfile.token,
+                stateProfile._tokenExpiryDate,
+                stateProfile.profile_picture,
+                action.payload.gender,
+                action.payload.profession
+            );
+            return {
+                ...state,
+                user: updatedProfile,
+                error: null
+            }
+
+        case AuthActions.Names.UPDATE_USER_PROFILE_ERROR:
+            return {
+                ...state,            
+                error: action.payload
+            };
         default:
             return state;
     }

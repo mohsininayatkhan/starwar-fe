@@ -13,6 +13,7 @@ export let apiPaths = {
         login: server+'login',
         logout: server+'logout',
         uploadPhoto: server+'user/picture',
+        updateProfile: server+'user',
     },
     timeline: {
         post: {

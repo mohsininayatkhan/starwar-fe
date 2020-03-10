@@ -13,6 +13,9 @@ export enum Names {
     UPLOAD_USER_PROFILE_PHOTO = '[User Profile Page] Upload Photo', 
     UPLOAD_USER_PROFILE_PHOTO_SUCCESS = '[User Profile Page] Upload Photo Success',
     UPLOAD_USER_PROFILE_PHOTO_ERROR = '[User Profile Page] Upload Photo Error',
+    UPDATE_USER_PROFILE = '[Edit Profile Page] Update User Profile', 
+    UPDATE_USER_PROFILE_SUCCESS = '[Edit Profile Page] Update User Profile Success',
+    UPDATE_USER_PROFILE_ERROR = '[Edit Profile Page] Update User Profile Error',
 }
 
 export class Register implements Action 
@@ -67,6 +70,24 @@ export class UploadUserProfilePhotoError implements Action
     constructor(public payload: AuthModels.AuthErrorResponse) {}
 }
 
+export class UpdateUserProfile implements Action 
+{
+    readonly type = Names.UPDATE_USER_PROFILE;    
+    constructor(public payload: AuthModels.UpdateProfileRequest) {}
+}
+
+export class UpdateUserProfileSuccess implements Action 
+{
+    readonly type = Names.UPDATE_USER_PROFILE_SUCCESS;
+    constructor(public payload: AuthModels.UpdateProfileResponse) {}
+}
+
+export class UpdateUserProfileError implements Action 
+{
+    readonly type = Names.UPDATE_USER_PROFILE_ERROR;
+    constructor(public payload: AuthModels.AuthErrorResponse) {}
+}
+
 export type AuthActionTypes = 
 Register | 
 Login | 
@@ -76,4 +97,7 @@ AutoLogin |
 Logout |
 UploadUserProfilePhoto | 
 UploadUserProfilePhotoSuccess | 
-UploadUserProfilePhotoError;
+UploadUserProfilePhotoError | 
+UpdateUserProfile | 
+UpdateUserProfileSuccess | 
+UpdateUserProfileError;

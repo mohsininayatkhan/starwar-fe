@@ -20,7 +20,7 @@ import { BehaviorSubject } from 'rxjs';
 export class MainComponent implements OnInit
 {   
     authUser: User = null;
-    private userId: number;
+    private userId: number = null;
     //public user: BehaviorSubject<ProfileModels.Profile>;    
     private user: ProfileModels.Profile;    
 
@@ -38,18 +38,22 @@ export class MainComponent implements OnInit
     {        
         //console.log('MAIN');
         this.route.params.subscribe((params: Params) => {
-            this.userId = +params['id'];
+            this.userId = +params['id'];            
+        });
+        
+        if (this.userId!=null) {
             this.userService.getProfile(this.userId)
             .subscribe(user => {
                 const profile = <ProfileModels.Profile>user; 
                 this.userService.setUser(profile);
                 this.user = profile;
             });
-        });
-        
-        this.authService.getStoreUser().subscribe(user => {
+        }
+
+        this.authService.getStoreUser().subscribe(user => {            
             this.authUser = user;            
-        });         
+        });
+
     }
 
     /*ngAfterViewInit() {        

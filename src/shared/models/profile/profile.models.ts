@@ -14,5 +14,12 @@ export class Profile
     posts_count: number;     
 }
 
+export class Gender 
+{
+    id: string;
+    name: string;
+}
+
+
 export class ProfileErrorResponse extends GeneralModels.ErrorResponse 
 {}

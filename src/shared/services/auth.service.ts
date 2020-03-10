@@ -44,6 +44,24 @@ export class AuthService
         return this.http.post(apiPaths.auth.uploadPhoto, formData, httpOptions);
     }
 
+    updateProfile(request: AuthModels.UpdateProfileRequest)
+    {
+        let token = '';
+        const user = this.getLocalStorageUser();    
+        
+        if(user!= null) {
+            token = user.token;
+        }
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type':  'application/json',
+                'Authorization': 'Bearer ' + token
+            })
+        };        
+        return this.http.post(apiPaths.auth.updateProfile, request, httpOptions);
+    }
+
     logout()
     {
         let token = '';

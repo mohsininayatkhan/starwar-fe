@@ -1,4 +1,9 @@
-<div *ngIf="user!=null" class="profile-sidebar well">
+<div *ngIf="user!=null" class="profile-sidebar">
+	<div class="row">
+		<div class="col-md-12">
+			<h3>About</h3>
+		</div>
+	</div>		
 	<div class="row">
 		<div class="col-md-12">
 			<strong>Created at: </strong> {{ user.created_at }}

@@ -113,13 +113,49 @@ export class AuthEffects
           .pipe(
             map(
               (response) => {  
-                //this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
+                this.spinner.hide();               
+                const resPhoto = <AuthModels.uploadPhotoResponse>response;
+                var localUser = this.authService.getLocalStorageUser();
+                localUser.profile_picture = resPhoto.url;
+                this.authService.storeLocalStorageUser(localUser);                
                 return new AuthActions.UploadUserProfilePhotoSuccess(<AuthModels.uploadPhotoResponse>response);
               }
             ),
             catchError((error: HttpErrorResponse) => {              
+              this.spinner.hide();
               const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
               return of(new AuthActions.AuthError(errorResponse));            
+            })
+          )
+        }
+      )
+  );
+
+  @Effect() 
+  updateProfile$ = this.actions$
+    .pipe(
+      ofType<AuthActions.UpdateUserProfile>(AuthActions.Names.UPDATE_USER_PROFILE),
+      mergeMap(
+        (data) => { 
+          this.spinner.show();   
+          return this.authService.updateProfile(data.payload)
+          .pipe(
+            map(
+              (response) => {  
+                this.spinner.hide();
+                const resProfile = <AuthModels.UpdateProfileResponse>response;
+                var localUser = this.authService.getLocalStorageUser();
+                localUser.name = resProfile.name;
+                localUser.gender = resProfile.gender;
+                localUser.profession = resProfile.profession;
+                this.authService.storeLocalStorageUser(localUser);
+                return new AuthActions.UpdateUserProfileSuccess(resProfile);
+              }
+            ),
+            catchError((error: HttpErrorResponse) => {               
+              this.spinner.hide();
+              const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
+              return of(new AuthActions.UpdateUserProfileError(errorResponse));            
             })
           )
         }
@@ -146,7 +182,7 @@ export class AuthEffects
   @Effect()
   autoLogin = this.actions$.pipe(
     ofType(AuthActions.Names.AUTO_LOGIN),
-    map(() => {      
+    map(() => {        
       const user = this.authService.getLocalStorageUser();
       if (!user) {
         return { type: 'DUMMY' };
@@ -158,6 +194,8 @@ export class AuthEffects
           name: user.name,
           email: user.email,
           profile_picture: user.profile_picture,
+          gender: user.gender,
+          profession: user.profession,
           updated_at: '',
           created_at: ''
         },
@@ -176,8 +214,10 @@ export class AuthEffects
       userInfo.user.name, 
       userInfo.access_token,
       new Date(userInfo.expires_at),
-      userInfo.user.profile_picture
-    );
+      userInfo.user.profile_picture,
+      userInfo.user.gender,
+      userInfo.user.profession
+    );    
     this.authService.storeLocalStorageUser(user);
   }
 }
