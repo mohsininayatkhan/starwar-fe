@@ -12,7 +12,7 @@ export const postAdapter: EntityAdapter<Post> = createEntityAdapter<Post>({
 const initialState = postAdapter.getInitialState({
     selectedPostId: null,
     error: null,
-    loading: false,
+    processing: false,
     current_page: null,
     first_page_url: null,
     from: null,
@@ -30,7 +30,7 @@ export function postReducer(state: PostState = initialState, action: PostActions
         case PostActions.Names.GET_ALL_POSTS:
             return {
                 ...state,
-                loading: true,
+                processing: true,
                 error: null,
                 current_page: null,
                 first_page_url: null, 
@@ -45,7 +45,7 @@ export function postReducer(state: PostState = initialState, action: PostActions
             return postAdapter.addMany(
                 action.payload.data, { 
                     ...state, 
-                    loading: false, 
+                    processing: false, 
                     error: null,
                     current_page: action.payload.current_page,
                     first_page_url: action.payload.first_page_url, 
@@ -59,36 +59,36 @@ export function postReducer(state: PostState = initialState, action: PostActions
         case PostActions.Names.GET_ALL_POSTS_ERROR:             
             return {
                 ...state,
-                loading: false,
+                processing: false,
                 error: action.payload
             };
         case PostActions.Names.CREATE_POST:
         case PostActions.Names.UPLOAD_PHOTOS:
             return {
                 ...state,
-                loading: true,
+                processing: true,
                 error: null
             };
         case PostActions.Names.CREATE_POST_SUCCESS:
-            return postAdapter.addOne(action.payload, state);
+            return postAdapter.addOne(action.payload, {...state, processing: false, error: null});
         case PostActions.Names.CREATE_POST_ERROR:        
             return {
                 ...state,
-                loading: false,
+                processing: false,
                 error: action.payload
             };
         case PostActions.Names.DELETE_POST:
             return {
                 ...state,
-                loading: true,
+                processing: true,
                 error: null
             };
         case PostActions.Names.DELETE_POST_SUCCESS:
-            return postAdapter.removeOne(action.payload, state);
+            return postAdapter.removeOne(action.payload, {...state, processing: false, error: null});
         case PostActions.Names.DELETE_POST_ERROR:
             return {
                 ...state,
-                loading: false,
+                processing: false,
                 error: action.payload
             };
         default:

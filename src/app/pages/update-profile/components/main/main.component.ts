@@ -33,9 +33,17 @@ export class MainComponent implements OnInit
 
     ngOnInit() 
     {
-        this.store.select('auth').subscribe((authState=> {            
+        this.store.select('auth').subscribe((authState=> {  
+            // in case of errors            
             if (authState.error!==null) {
                 this.showErrors(authState.error);
+            }
+
+            // in case of processing
+            if (authState.processing) {
+                this.spinner.show();
+            } else {
+                this.spinner.hide();
             }
         }));
 
@@ -70,8 +78,7 @@ export class MainComponent implements OnInit
     }
 
     showErrors(errorResponse: AuthModels.AuthErrorResponse) 
-    {  
-        this.spinner.hide();
+    {          
         if(errorResponse.errors==null) {
             this.toastr.error('Sorry!', errorResponse.message);
         } else {

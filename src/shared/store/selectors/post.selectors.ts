@@ -31,3 +31,10 @@ export const getNextPageUrl = createSelector(
         return state.next_page_url
     }
 );
+
+export const isProcessing = createSelector(
+    selectPostState,
+    (state: PostState) => {         
+        return state.processing
+    }
+);

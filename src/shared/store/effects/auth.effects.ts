@@ -9,7 +9,6 @@ import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from "ngx-spinner";
 
 @Injectable()
 export class AuthEffects 
@@ -20,8 +19,7 @@ export class AuthEffects
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private errorHandler: ErrorHandlerService,
-    private spinner: NgxSpinnerService
+    private errorHandler: ErrorHandlerService
   ) {}
   
   @Effect() 
@@ -29,19 +27,16 @@ export class AuthEffects
   .pipe(
     ofType<AuthActions.Register>(AuthActions.Names.REGISTER),
     mergeMap(
-      (data) => { 
-        this.spinner.show();       
+      (data) => {         
         return this.authService.register(data.payload)
         .pipe(
           map(
             (response) => { 
-              this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
-              this.spinner.hide(); 
+              this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);              
               return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
             }
           ),
           catchError((error: HttpErrorResponse) => { 
-            this.spinner.hide();              
             const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
             return of(new AuthActions.AuthError(errorResponse));
           })
@@ -55,19 +50,16 @@ export class AuthEffects
   .pipe(
     ofType<AuthActions.Login>(AuthActions.Names.LOGIN),
     mergeMap(
-      (data) => { 
-        this.spinner.show();       
+      (data) => {         
         return this.authService.login(data.payload)
         .pipe(
           map(
-            (response) => {  
-              this.spinner.hide(); 
+            (response) => {                
               this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
               return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
             }
           ),
           catchError((error: HttpErrorResponse) => { 
-            this.spinner.hide();   
             const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
             return of(new AuthActions.AuthError(errorResponse));
           })
@@ -81,19 +73,16 @@ export class AuthEffects
     .pipe(
       ofType<AuthActions.Logout>(AuthActions.Names.LOGOUT),
       mergeMap(
-        (data) => {  
-          this.spinner.show();      
+        (data) => {            
           return this.authService.logout()
           .pipe(
             map(
               (response) => {  
-                this.spinner.hide(); 
                 this.storeUserInLocalStorage(<AuthModels.AuthSuccessResponse>response);
                 return new AuthActions.AuthSuccess(<AuthModels.AuthSuccessResponse>response);
               }
             ),
             catchError((error: HttpErrorResponse) => {  
-              this.spinner.hide();             
               const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
               return of(new AuthActions.AuthError(errorResponse));            
             })
@@ -107,13 +96,11 @@ export class AuthEffects
     .pipe(
       ofType<AuthActions.UploadUserProfilePhoto>(AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO),
       mergeMap(
-        (data) => { 
-          this.spinner.show();   
+        (data) => {          
           return this.authService.uploadPhoto(data.payload)
           .pipe(
             map(
               (response) => {  
-                this.spinner.hide();               
                 const resPhoto = <AuthModels.uploadPhotoResponse>response;
                 var localUser = this.authService.getLocalStorageUser();
                 localUser.profile_picture = resPhoto.url;
@@ -121,10 +108,9 @@ export class AuthEffects
                 return new AuthActions.UploadUserProfilePhotoSuccess(<AuthModels.uploadPhotoResponse>response);
               }
             ),
-            catchError((error: HttpErrorResponse) => {              
-              this.spinner.hide();
+            catchError((error: HttpErrorResponse) => { 
               const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
-              return of(new AuthActions.AuthError(errorResponse));            
+              return of(new AuthActions.UploadUserProfilePhotoError(errorResponse));            
             })
           )
         }
@@ -137,12 +123,10 @@ export class AuthEffects
       ofType<AuthActions.UpdateUserProfile>(AuthActions.Names.UPDATE_USER_PROFILE),
       mergeMap(
         (data) => { 
-          this.spinner.show();   
           return this.authService.updateProfile(data.payload)
           .pipe(
             map(
               (response) => {  
-                this.spinner.hide();
                 const resProfile = <AuthModels.UpdateProfileResponse>response;
                 var localUser = this.authService.getLocalStorageUser();
                 localUser.name = resProfile.name;
@@ -152,8 +136,7 @@ export class AuthEffects
                 return new AuthActions.UpdateUserProfileSuccess(resProfile);
               }
             ),
-            catchError((error: HttpErrorResponse) => {               
-              this.spinner.hide();
+            catchError((error: HttpErrorResponse) => { 
               const errorResponse: AuthModels.AuthErrorResponse = this.errorHandler.getAuthErrors(error);
               return of(new AuthActions.UpdateUserProfileError(errorResponse));            
             })

@@ -5,8 +5,6 @@ import { FormsModule } from '@angular/forms';
 
 import { MainComponent } from './components/main/main.component';
 
-
-
 const routes = [
     {
         path: 'update-profile',

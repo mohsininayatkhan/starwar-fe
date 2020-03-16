@@ -7,6 +7,7 @@ import { AuthService } from 'src/shared/services/auth.service';
 const initialState: AuthState = {
     user: null, 
     error: null,
+    processing: false
 };
 
 export function authReducer(state: AuthState = initialState, action: AuthActions.AuthActionTypes) :AuthState {    
@@ -15,19 +16,22 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
             return {
                 ...state,
                 user: null,
-                error: null
+                error: null,
+                processing: true
             };        
         case AuthActions.Names.LOGIN:
             return {
                 ...state,
                 user: null,
-                error: null
+                error: null, 
+                processing: true
             };        
         case AuthActions.Names.AUTH_ERROR:
             return {
                 ...state,
                 user: null,
-                error: action.payload
+                error: action.payload, 
+                processing: false
             };
         case AuthActions.Names.AUTH_SUCCESS:         
             const user = new User(
@@ -43,19 +47,21 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
             return {
                 ...state,
                 user: user,
-                error: null
+                error: null,
+                processing: false
             };
         case AuthActions.Names.LOGOUT:
             return {
                 ...state,
                 user: null,
-                error: null
+                error: null,
+                processing: false
             }
         case AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO:
-            return state;
+            return {...state, processing: true, error: null};
         case AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO_SUCCESS:            
             const stateUser = {
-                ...state.user
+                ...state.user,
             }
             const updatedUser = new User(
                 stateUser.id,                 
@@ -70,12 +76,18 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
             
             return {
                 ...state,
-                user: updatedUser
+                user: updatedUser,
+                error: null,
+                processing: false
             }            
         case AuthActions.Names.UPLOAD_USER_PROFILE_PHOTO_ERROR:
-            return state;
+            return {
+                ...state,  
+                user: state.user,              
+                error: action.payload
+            }    
         case AuthActions.Names.UPDATE_USER_PROFILE:
-            return state;
+            return {...state, processing: true, error: null};
         case AuthActions.Names.UPDATE_USER_PROFILE_SUCCESS:           
             const stateProfile = {
                 ...state.user
@@ -93,13 +105,15 @@ export function authReducer(state: AuthState = initialState, action: AuthActions
             return {
                 ...state,
                 user: updatedProfile,
-                error: null
+                error: null,
+                processing: false
             }
 
         case AuthActions.Names.UPDATE_USER_PROFILE_ERROR:
             return {
                 ...state,            
-                error: action.payload
+                error: action.payload,
+                processing: false
             };
         default:
             return state;

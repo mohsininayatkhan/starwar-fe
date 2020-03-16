@@ -4,5 +4,6 @@ import { AuthErrorResponse } from 'src/shared/models/auth/auth.models';
 export interface AuthState 
 {
     user: User,
-    error: AuthErrorResponse
+    error: AuthErrorResponse,
+    processing: boolean
 }

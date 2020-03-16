@@ -7,7 +7,6 @@ import { PostService } from 'src/shared/services/post.service';
 import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 import * as PostModels from  'src/shared/models/timeline/post.models';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgxSpinnerService } from "ngx-spinner";
 
 @Injectable()
 export class PostEffects 
@@ -17,7 +16,6 @@ export class PostEffects
     private actions$: Actions,
     private postService: PostService,
     private errorHandler: ErrorHandlerService,
-    private spinner: NgxSpinnerService
   ) {}
 
   @Effect() 
@@ -25,18 +23,15 @@ export class PostEffects
   .pipe(
     ofType<PostActions.GetAllPosts>(PostActions.Names.GET_ALL_POSTS),
     mergeMap(
-      (data) => {  
-        this.spinner.show();         
+      (data) => {          
         return this.postService.getAll(data.payload)
         .pipe(
           map(
             (response) => { 
-              this.spinner.hide();         
               return new PostActions.GetAllPostsSuccess(<PostModels.PostSuccessResponse>response);
             }
           ),
           catchError((error: HttpErrorResponse) => { 
-            this.spinner.hide();
             const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
             return of(new PostActions.GetAllPostsError(errorResponse));
           })
@@ -50,18 +45,15 @@ export class PostEffects
   .pipe(
     ofType<PostActions.CreatePost>(PostActions.Names.CREATE_POST),
     mergeMap(
-      (data) => { 
-        this.spinner.show();
+      (data) => {         
         return this.postService.createPost(data.payload)
         .pipe(
           map(
-            (response) => {    
-              this.spinner.hide();
+            (response) => {              
               return new PostActions.CreatePostSuccess(<PostModels.Post>response);
             }
           ),
-          catchError((error: HttpErrorResponse) => {    
-            this.spinner.hide();          
+          catchError((error: HttpErrorResponse) => { 
             const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
             return of(new PostActions.CreatePostError(errorResponse));
           })
@@ -75,18 +67,15 @@ export class PostEffects
   .pipe(
     ofType<PostActions.DeletePost>(PostActions.Names.DELETE_POST),
     mergeMap(
-      (data) => {
-        this.spinner.show();           
+      (data) => {        
         return this.postService.removePost(data.payload)
         .pipe(
           map(
-            (response) => { 
-              this.spinner.hide();   
+            (response) => {               
               return new PostActions.DeletePostSuccess(data.payload);
             }
           ),
           catchError((error: HttpErrorResponse) => {             
-            this.spinner.hide();   
             const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
             return of(new PostActions.DeletePostError(errorResponse));
           })
@@ -100,18 +89,15 @@ export class PostEffects
     .pipe(
       ofType<PostActions.UploadPhotos>(PostActions.Names.UPLOAD_PHOTOS),
       mergeMap(
-        (data) => { 
-          this.spinner.show();
+        (data) => {           
           return this.postService.uploadPostPhotos(data.payload)
           .pipe(
             map(
-              (response) => {
-                this.spinner.hide();
+              (response) => {                
                 return new PostActions.CreatePostSuccess(<PostModels.Post>response);
               }
             ),
-            catchError((error: HttpErrorResponse) => { 
-              this.spinner.hide();
+            catchError((error: HttpErrorResponse) => {               
               const errorResponse: PostModels.PostErrorResponse = this.errorHandler.getPostErrors(error);
               return of(new PostActions.CreatePostError(errorResponse));
             })

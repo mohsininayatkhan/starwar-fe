@@ -5,7 +5,7 @@ export interface PostState extends EntityState<Post>
 {
     selectedPostId: number,
     error: PostErrorResponse;
-    loading: boolean;
+    processing: boolean;
     current_page: string;
     first_page_url: string;
     from: string;

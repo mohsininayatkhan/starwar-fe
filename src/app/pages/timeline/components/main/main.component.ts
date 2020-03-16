@@ -5,10 +5,11 @@ import { AppState } from 'src/shared/store/states/app.state';
 import { Post, CreatePostRequest, PostErrorResponse, UploadPhotosRequest  } from  'src/shared/models/timeline/post.models';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/shared/services/auth.service';
-import { selectAllPosts, getNextPageUrl } from 'src/shared/store/selectors/post.selectors';
+import { selectAllPosts, getNextPageUrl, isProcessing } from 'src/shared/store/selectors/post.selectors';
 import { Observable } from 'rxjs';
 import { apiPaths } from 'src/shared/parameters/backend-endpoints';
 import { take } from 'rxjs/operators';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
     selector: 'timeline-main',
@@ -25,7 +26,8 @@ export class MainComponent implements OnInit, OnDestroy{
     constructor(
         private store: Store<AppState>, 
         private authService: AuthService, 
-        private toastr: ToastrService        
+        private toastr: ToastrService, 
+        private spinner: NgxSpinnerService   
     ) { }
 
     ngOnInit() 
@@ -34,10 +36,21 @@ export class MainComponent implements OnInit, OnDestroy{
         this.isAuthenticated = this.authService.isAuthenticated();
         this.authService.getStoreUser().subscribe(user => {
             this.user = user;            
-        });        
+        }); 
+
         this.store.dispatch(new GetAllPosts(apiPaths.timeline.post.getAllPosts));
         this.posts = this.store.pipe(select(selectAllPosts));
-    }
+
+        this.store.pipe(select(isProcessing)).subscribe(processing => {  
+            setTimeout(() => {
+                if (processing) {
+                    this.spinner.show();
+                } else {
+                    this.spinner.hide();
+                }
+            }, 500);            
+        });            
+    }    
 
     ngOnDestroy() 
     {
@@ -46,8 +59,7 @@ export class MainComponent implements OnInit, OnDestroy{
 
     errorHandling() 
     {
-        this.store.select('posts').subscribe((postState=> {   
-            
+        this.store.select('posts').subscribe((postState=> {  
             /* error handling */
             if (postState.error!==null) {
                 this.postError = postState.error; 
