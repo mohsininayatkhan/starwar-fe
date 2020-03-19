@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { apiPaths } from 'src/shared/parameters/backend-endpoints';
 import { take } from 'rxjs/operators';
 import { NgxSpinnerService } from "ngx-spinner";
+import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 
 @Component({
     selector: 'timeline-main',
@@ -26,13 +27,12 @@ export class MainComponent implements OnInit, OnDestroy{
     constructor(
         private store: Store<AppState>, 
         private authService: AuthService, 
-        private toastr: ToastrService, 
+        private errorHandler: ErrorHandlerService,
         private spinner: NgxSpinnerService   
     ) { }
 
     ngOnInit() 
     { 
-        this.errorHandling();
         this.isAuthenticated = this.authService.isAuthenticated();
         this.authService.getStoreUser().subscribe(user => {
             this.user = user;            
@@ -48,9 +48,11 @@ export class MainComponent implements OnInit, OnDestroy{
                 } else {
                     this.spinner.hide();
                 }
-            }, 500);            
-        });            
-    }    
+            }, 500);
+        });
+
+        this.errorHandling();
+    }       
 
     ngOnDestroy() 
     {
@@ -59,17 +61,9 @@ export class MainComponent implements OnInit, OnDestroy{
 
     errorHandling() 
     {
-        this.store.select('posts').subscribe((postState=> {  
-            /* error handling */
+        this.store.select('posts').subscribe((postState=> {              
             if (postState.error!==null) {
-                this.postError = postState.error; 
-                if (this.postError.errors!==null) {
-                    this.postError.errors.forEach(element => {                        
-                        this.toastr.error(this.postError.message, element);
-                    });
-                } else {
-                    this.toastr.error('Sorry!', this.postError.message);
-                }
+                this.errorHandler.showErrors(postState.error);
             }
         }));
     }

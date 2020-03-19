@@ -2,8 +2,13 @@
     <!-- TEXTBOX FOR NEW POST -->
     <timeline-mypost (createPostRequest)="createPost($event)" (uploadPhotosRequest)="uploadPhotos($event)" *ngIf="isAuthenticated"></timeline-mypost>
 
-    <!-- POSTS -->    
+    <!-- POSTS -->
+        
     <timeline-post *ngFor="let post of posts | async" [post]="post" [user]="user" (removePostId)="removePost($event)"></timeline-post>
+
+    <div *ngIf="(posts | async)?.length==0"class="alert alert-info">
+        <strong>Sorry!</strong> No Record Found.
+    </div>
 
     <div 
         class="timeline-posts" 

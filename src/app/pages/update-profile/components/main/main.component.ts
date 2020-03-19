@@ -9,6 +9,7 @@ import * as ProfileModels from  'src/shared/models/profile/profile.models';
 import { ToastrService } from 'ngx-toastr';
 import { UploadUserProfilePhoto } from 'src/shared/store/actions/auth.actions';
 import { NgxSpinnerService } from "ngx-spinner";
+import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 
 @Component({
     selector: 'login-main',
@@ -28,18 +29,17 @@ export class MainComponent implements OnInit
         private store: Store<AppState>, 
         private toastr: ToastrService, 
         private authService: AuthService, 
-        private spinner: NgxSpinnerService
+        private spinner: NgxSpinnerService,
+        private errorHandler: ErrorHandlerService,
     ) { }
 
     ngOnInit() 
     {
-        this.store.select('auth').subscribe((authState=> {  
-            // in case of errors            
+        this.store.select('auth').subscribe((authState=> {              
             if (authState.error!==null) {
-                this.showErrors(authState.error);
+                this.errorHandler.showErrors(authState.error);
             }
-
-            // in case of processing
+            
             if (authState.processing) {
                 this.spinner.show();
             } else {
@@ -68,23 +68,11 @@ export class MainComponent implements OnInit
     } 
     
     onChangePhoto(files: FileList)
-    {      
-        
+    { 
         const file: File = files.item(0);
         const request : AuthModels.UploadPhotoRequest = {
             photo: file
         };       
         this.store.dispatch(new UploadUserProfilePhoto(request));
-    }
-
-    showErrors(errorResponse: AuthModels.AuthErrorResponse) 
-    {          
-        if(errorResponse.errors==null) {
-            this.toastr.error('Sorry!', errorResponse.message);
-        } else {
-            errorResponse.errors.forEach(element => {                        
-                this.toastr.error(errorResponse.message, element);
-            });
-        }
-    }
+    }    
 }

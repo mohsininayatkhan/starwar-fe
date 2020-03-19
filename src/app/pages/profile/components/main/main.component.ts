@@ -9,8 +9,9 @@ import { UserService } from 'src/shared/services/user.service';
 import { User } from 'src/shared/models/auth/user.model';
 import * as ProfileModels  from 'src/shared/models/profile/profile.models';
 import * as PostModels from  'src/shared/models/timeline/post.models';
-import { ActivatedRoute, Params } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
+
 
 @Component({
     selector: 'login-main',
@@ -29,30 +30,37 @@ export class MainComponent implements OnInit
     constructor(
         private store: Store<AppState>, 
         private authService: AuthService, 
-        private userService: UserService, 
-        private toastr: ToastrService,
-        private route: ActivatedRoute,
+        private userService: UserService,
+        private activeRoute: ActivatedRoute, 
+        private errorHandler: ErrorHandlerService,
+        private router: Router
     ) {}
 
     ngOnInit() 
     {        
         //console.log('MAIN');
-        this.route.params.subscribe((params: Params) => {
+        this.activeRoute.params.subscribe((params: Params) => {
             this.userId = +params['id'];            
         });
         
         if (this.userId!=null) {
             this.userService.getProfile(this.userId)
-            .subscribe(user => {
+            .subscribe(user => {                
                 const profile = <ProfileModels.Profile>user; 
                 this.userService.setUser(profile);
                 this.user = profile;
+
+                this.authService.getStoreUser().subscribe(user => {            
+                    this.authUser = user;            
+                });
+
+            }, error => {                
+                this.errorHandler.showErrors(error);
+                this.router.navigate(['/timeline']);
             });
         }
 
-        this.authService.getStoreUser().subscribe(user => {            
-            this.authUser = user;            
-        });
+       
 
     }
 
@@ -67,16 +75,4 @@ export class MainComponent implements OnInit
         };       
         this.store.dispatch(new UploadUserProfilePhoto(request));
     }  
-    
-
-    showErrors(errorResponse: PostModels.PostErrorResponse) 
-    {  
-        if(errorResponse.errors==null) {
-            this.toastr.error('Sorry!', errorResponse.message);
-        } else {
-            errorResponse.errors.forEach(element => {                        
-                this.toastr.error(errorResponse.message, element);
-            });
-        }
-    }    
 }

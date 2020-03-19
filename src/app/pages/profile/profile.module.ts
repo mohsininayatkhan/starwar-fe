@@ -8,7 +8,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MainComponent } from './components/main/main.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ContentComponent } from './components/content/content.component';
-import { AuthGuardService } from 'src/shared/services/auth-guard.service';
 import { PostsComponent } from './components/posts/posts.component';
 import { HeaderComponent } from './components/header/header';
 
@@ -16,7 +15,6 @@ const routes = [
     {
         path: 'profile/:id',
         component: MainComponent,
-        canActivate: [AuthGuardService],
         children: [
             { 
                 'path': 'posts', 
@@ -42,8 +40,7 @@ const routes = [
         InfiniteScrollModule,
     ],
     exports: [
-    ],
-    providers: [AuthGuardService],
+    ],    
 })
 export class ProfileModule 
 {

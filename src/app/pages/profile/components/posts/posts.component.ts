@@ -4,12 +4,12 @@ import * as ProfileModels  from 'src/shared/models/profile/profile.models';
 import { AuthService } from 'src/shared/services/auth.service';
 import { UserService } from 'src/shared/services/user.service';
 import { PostService } from 'src/shared/services/post.service';
-import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 import { apiPaths } from 'src/shared/parameters/backend-endpoints';
 import { ToastrService } from 'ngx-toastr';
 import { take, catchError } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { NgxSpinnerService } from "ngx-spinner";
+import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 
 @Component({
     selector: 'profile-posts',
@@ -66,7 +66,7 @@ export class PostsComponent implements OnInit
             this.posts.next(posts);
             this.spinner.hide();
         }, error => {
-            this.showErrors(error);
+            this.errorHandler.showErrors(error);
         });        
     }
 
@@ -79,7 +79,10 @@ export class PostsComponent implements OnInit
     
     getUserPosts(url: string)
     {
-        this.spinner.show();
+        setTimeout(() => {
+            this.spinner.show();            
+        }, 500);
+        
         this.userService.getPosts(url)
         .pipe(
             take(1)
@@ -90,19 +93,7 @@ export class PostsComponent implements OnInit
             this.posts.next(allPosts);
             this.spinner.hide();
         },error => {            
-            this.showErrors(error);
+            this.errorHandler.showErrors(error);
         });
-    }
-
-    showErrors(errorResponse: PostModels.PostErrorResponse) 
-    {  
-        this.spinner.hide();
-        if(errorResponse.errors==null) {
-            this.toastr.error('Sorry!', errorResponse.message);
-        } else {
-            errorResponse.errors.forEach(element => {                        
-                this.toastr.error(errorResponse.message, element);
-            });
-        }
     }
 }

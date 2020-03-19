@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import * as PostModels from  'src/shared/models/timeline/post.models';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
  @Injectable()
 export class ErrorHandlerService
 {     
-    constructor() {}
+    constructor(private toastr: ToastrService) {}
 
     getPostErrors(error: HttpErrorResponse)
     {
@@ -74,5 +75,16 @@ export class ErrorHandlerService
           }
         }
         return errorResponse;
+    }
+
+    showErrors(errorResponse: AuthModels.AuthErrorResponse) 
+    {          
+        if(errorResponse.errors==null) {
+            this.toastr.error('Sorry!', errorResponse.message);
+        } else {
+            errorResponse.errors.forEach(element => {                        
+                this.toastr.error(errorResponse.message, element);
+            });
+        }
     }
 }

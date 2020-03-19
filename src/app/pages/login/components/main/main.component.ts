@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { Login } from 'src/shared/store/actions/auth.actions';
 import { AppState } from 'src/shared/store/states/app.state';
 import * as AuthModels from  'src/shared/models/auth/auth.models';
-import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
 
 @Component({
     selector: 'login-main',
@@ -16,20 +17,22 @@ export class MainComponent implements OnInit
 
     private authError: AuthModels.AuthErrorResponse;    
     
-    constructor(private store: Store<AppState>, private toastr: ToastrService) { }
+    constructor(
+        private store: Store<AppState>, 
+        private errorHandler: ErrorHandlerService,
+        private spinner: NgxSpinnerService
+    ) { }
 
     ngOnInit() {        
-        this.store.select('auth').subscribe((authState=> {            
-            /* error handling */
+        this.store.select('auth').subscribe((authState=> {             
             if (authState.error!==null) {
-                this.authError = authState.error; 
-                if (this.authError.errors!==null) {
-                    this.authError.errors.forEach(element => {
-                        this.toastr.error(this.authError.message, element);
-                    });
-                } else {
-                    this.toastr.error('Sorry!', this.authError.message);
-                }
+                this.errorHandler.showErrors(authState.error);
+            }
+            
+            if (authState.processing) {
+                this.spinner.show();
+            } else {
+                this.spinner.hide();
             }
         }));
     }
@@ -45,5 +48,5 @@ export class MainComponent implements OnInit
             password: data.password
         };        
         this.store.dispatch(new Login(request));
-    }
+    }   
 }
