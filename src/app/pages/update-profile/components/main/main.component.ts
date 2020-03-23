@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UploadUserProfilePhoto } from 'src/shared/store/actions/auth.actions';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ErrorHandlerService } from 'src/shared/services/error-handler.service';
+import { server } from 'src/shared/parameters/backend-endpoints';
 
 @Component({
     selector: 'login-main',
@@ -20,10 +21,11 @@ export class MainComponent implements OnInit
 {    
     // another way to get form object by tag
     //@ViewChild('form', {static: true}) loginForm: NgForm;
+    private basePath : string;
 
     private authError: AuthModels.AuthErrorResponse;
     private user = null;  
-    private genderList : ProfileModels.Gender[] = null;
+    private genderList : ProfileModels.Gender[] = null;   
 
     constructor(
         private store: Store<AppState>, 
@@ -31,7 +33,10 @@ export class MainComponent implements OnInit
         private authService: AuthService, 
         private spinner: NgxSpinnerService,
         private errorHandler: ErrorHandlerService,
-    ) { }
+    ) 
+    { 
+        this.basePath = server;
+    }
 
     ngOnInit() 
     {

@@ -13,7 +13,7 @@
         </div>
         <div class="message-head clearfix">
             <div class="avatar pull-left"><a [routerLink]="['/','profile', post.author.id, 'posts']">
-                <img class="profile-img" src="{{ post.author.profile_picture }}"></a>
+                <img class="profile-img" src="{{ basePath+post.author.profile_picture }}"></a>
             </div>
             <div class="user-detail">
                 <h5 class="handle">{{ post.title }}</h5>

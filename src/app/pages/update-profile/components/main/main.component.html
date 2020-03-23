@@ -4,7 +4,7 @@
     <form (ngSubmit)="onSubmit(form)" #form="ngForm">
       <div class="form-group">
         <div class="circle">			
-          <img  class="profile-pic" src="{{ user.profile_picture }}">
+          <img  class="profile-pic" src="{{ basePath+user.profile_picture }}">
         </div>
         <div class="p-image">
           <a class="change-photo" (click)="uploader.click()"><i class="glyphicon glyphicon-camera"></i></a>

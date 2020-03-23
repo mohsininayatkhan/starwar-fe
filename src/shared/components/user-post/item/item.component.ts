@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Item } from 'src/shared/models/timeline/post.models';
+import { server } from 'src/shared/parameters/backend-endpoints';
 
 @Component({
     selector: 'timeline-post-item',
@@ -8,9 +9,14 @@ import { Item } from 'src/shared/models/timeline/post.models';
 })
 export class ItemComponent implements OnInit 
 {
+    private basePath : string;
+
     @Input() items: Item[];
 
-    constructor() {}
+    constructor()
+    {
+        this.basePath = server;
+    }
 
     ngOnInit() {}
 }

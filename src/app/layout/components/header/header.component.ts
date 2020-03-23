@@ -12,6 +12,8 @@ import { User } from 'src/shared/models/auth/user.model';
 })
 export class HeaderComponent implements OnInit {
 
+  private basePath : string;
+
   isAuthenticated = false;
   authUser: User = null;
 
